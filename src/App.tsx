@@ -18,7 +18,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path={ROUTES.HOME} element={<Home />} />
         <Route path={ROUTES.LOGIN} element={<Login type='login' />} />
-        <Route path={ROUTES.SIGNUP} element={<Login type='sign up' />} />
+        <Route path={ROUTES.SIGNUP} element={<Login type='signup' />} />
         <Route path={ROUTES.MYPAGE} element={<MyPage />} />
       </Routes>
     </BrowserRouter>
