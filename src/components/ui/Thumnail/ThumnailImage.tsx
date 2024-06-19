@@ -28,7 +28,7 @@ const ThumnailContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: gray;
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 20px 20px 0 0;
 `;
 

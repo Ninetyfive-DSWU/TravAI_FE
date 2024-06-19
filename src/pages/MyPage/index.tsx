@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import Typography from '@components/ui/Typography/Typography';
 import MyList from '@pages/MyPage/MyList';
 
 const MyPage: React.FC = () => {
   return (
     <MyPageContainer>
-      <p>나의 여행</p>
+      <Typography content='나의 여행' size={50} fontWeight={700} />
       <MyList />
     </MyPageContainer>
   );
