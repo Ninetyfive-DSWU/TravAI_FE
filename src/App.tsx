@@ -1,35 +1,26 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import React, { useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ENVMODE, ROUTES } from './enums/CommonEnum';
+import Home from '@pages/Home';
+import Login from '@pages/Login';
+import { SYSTEM_MODE } from './constants/Constants';
 
-function App() {
-  const [count, setCount] = useState(0);
+const App: React.FC = () => {
+  useEffect(() => {
+    if (SYSTEM_MODE !== ENVMODE.PROD) {
+      console.log('현재 모드', SYSTEM_MODE);
+    }
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path={ROUTES.HOME} element={<Home />} />
+        <Route path={ROUTES.LOGIN} element={<Login type='login' />} />
+        <Route path={ROUTES.SIGNUP} element={<Login type='sign up' />} />
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
