@@ -4,7 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "start": "vite --mode localDev",
+    "start:dev": "vite --mode development",
+    "start:stage": "vite --mode stage",
+    "start:prod": "vite --mode production",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint-staged": "lint-staged",
@@ -23,6 +26,7 @@
     "prettier": "^3.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.23.1",
     "redux": "^5.0.1",
     "styled-components": "^6.1.11"
   },
