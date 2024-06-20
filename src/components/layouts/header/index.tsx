@@ -20,7 +20,7 @@ const StyledHeader = styled.header`
   width: 100vw;
   height: 6.15vw;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 0px 5.73vw;
   background-color: #fff;
   z-index: 999;
@@ -28,7 +28,7 @@ const StyledHeader = styled.header`
 
 const HeaderInner = styled.div`
   display: flex;
-  justify-content: center;
+  width: 100%;
   align-items: center;
-  gap: 38.02vw;
+  justify-content: space-between;
 `;

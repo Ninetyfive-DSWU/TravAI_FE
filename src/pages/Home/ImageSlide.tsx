@@ -1,25 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import FilterBox from "@pages/Home/FilterBox";
 import thumnail from "../../assets/images/png/background.png";
 
-const Home: React.FC = () => {
+const ImageSlide: React.FC = () => {
   return (
-    <MainSection>
+    <ThumnailSection>
       <Img src={thumnail} />
-      <FilterBox />
-    </MainSection>
+    </ThumnailSection>
   );
 };
 
-export default Home;
+export default ImageSlide;
 
-const MainSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
+const ThumnailSection = styled.div`
   position: relative;
 `;
 
