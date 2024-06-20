@@ -1,7 +1,8 @@
 import React from 'react';
+import AddPlan from '@components/ui/Modal/AddPlan';
 
 const Home: React.FC = () => {
-  return <p>메인(홈) 페이지입니다.</p>;
+  return <AddPlan />;
 };
 
 export default Home;
