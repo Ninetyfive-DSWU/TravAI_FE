@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import FilterBox from "@pages/Home/FilterBox";
 import thumnail from "../../assets/images/png/background.png";
+// import AddPlan from '@components/ui/Modal/AddPlan';
 
 const Home: React.FC = () => {
   return (
