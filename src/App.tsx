@@ -5,6 +5,7 @@ import Home from "@pages/Home";
 import Login from "@pages/Login";
 import { SYSTEM_MODE } from "./constants/Constants";
 import GlobalStyle from "@assets/styles/GlobalStyle";
+import Base from "@components/layouts/Base";
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -15,12 +16,14 @@ const App: React.FC = () => {
 
   return (
     <BrowserRouter>
-      <GlobalStyle />
-      <Routes>
-        <Route path={ROUTES.HOME} element={<Home />} />
-        <Route path={ROUTES.LOGIN} element={<Login type="login" />} />
-        <Route path={ROUTES.SIGNUP} element={<Login type="sign up" />} />
-      </Routes>
+      <Base>
+        <GlobalStyle />
+        <Routes>
+          <Route path={ROUTES.HOME} element={<Home />} />
+          <Route path={ROUTES.LOGIN} element={<Login type="login" />} />
+          <Route path={ROUTES.SIGNUP} element={<Login type="sign up" />} />
+        </Routes>
+      </Base>
     </BrowserRouter>
   );
 };
