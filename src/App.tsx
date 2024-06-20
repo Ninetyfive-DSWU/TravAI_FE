@@ -1,23 +1,25 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ENVMODE, ROUTES } from './enums/CommonEnum';
-import Home from '@pages/Home';
-import Login from '@pages/Login';
-import { SYSTEM_MODE } from './constants/Constants';
+import React, { useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ENVMODE, ROUTES } from "./enums/CommonEnum";
+import Home from "@pages/Home";
+import Login from "@pages/Login";
+import { SYSTEM_MODE } from "./constants/Constants";
+import GlobalStyle from "@assets/styles/GlobalStyle";
 
 const App: React.FC = () => {
   useEffect(() => {
     if (SYSTEM_MODE !== ENVMODE.PROD) {
-      console.log('현재 모드', SYSTEM_MODE);
+      console.log("현재 모드", SYSTEM_MODE);
     }
   }, []);
 
   return (
     <BrowserRouter>
+      <GlobalStyle />
       <Routes>
         <Route path={ROUTES.HOME} element={<Home />} />
-        <Route path={ROUTES.LOGIN} element={<Login type='login' />} />
-        <Route path={ROUTES.SIGNUP} element={<Login type='sign up' />} />
+        <Route path={ROUTES.LOGIN} element={<Login type="login" />} />
+        <Route path={ROUTES.SIGNUP} element={<Login type="sign up" />} />
       </Routes>
     </BrowserRouter>
   );
