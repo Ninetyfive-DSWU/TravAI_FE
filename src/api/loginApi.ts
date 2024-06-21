@@ -7,9 +7,14 @@ interface UserData {
   password2: string;
 }
 
+interface LoginData {
+  username: string;
+  password: string;
+}
+
 export const registerUser = async (userData: UserData) => {
   const jsonUserData = JSON.stringify(userData);
-  
+
   try {
     const response = await fetch(`${API_BASE_URL}/accounts/v1/registration/`, {
       method: 'POST',
@@ -18,7 +23,33 @@ export const registerUser = async (userData: UserData) => {
     });
 
     if (response.status === 204) return {};
+
     const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const login = async (loginData: LoginData) => {
+  const jsonLoginData = JSON.stringify(loginData);
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/accounts/v1/login/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: jsonLoginData,
+    });
+
+    const data = await response.json();
+
+    // 로그인 성공
+    if (data.key) {
+      localStorage.setItem('token', data.key);
+      localStorage.setItem('userId', data.username);
+    }
+
     return data;
   } catch (error) {
     console.error(error);
