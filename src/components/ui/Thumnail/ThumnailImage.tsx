@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import pxToVw from '@utils/PxToVw';
 import noImage from '@assets/images/no_image.png';
 
 interface ThumbnailImageProps {
@@ -23,8 +24,8 @@ const ThumnailImage: React.FC<ThumbnailImageProps> = ({ cityName }) => {
 export default ThumnailImage;
 
 const ThumnailContainer = styled.div`
-  width: 511px;
-  height: 243px;
+  width: ${pxToVw(511)};
+  height: ${pxToVw(243)};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,6 +34,6 @@ const ThumnailContainer = styled.div`
 `;
 
 const Thumnail = styled.img`
-  width: 120px;
-  height: 120px;
+  width: ${pxToVw(120)};
+  height: ${pxToVw(120)};
 `;
