@@ -1,26 +1,29 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import pxToVw from '@utils/PxToVw';
+import { successNotification, errorNotification } from '@utils/Notification';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Input, Button, Space } from 'antd';
-import { validateEmail, validateId, validatePassword } from '@api/registerApi';
+import { registerUser, validateEmail, validateUsername, validatePassword } from '@api/loginApi';
 
 const SignUpForm: React.FC = () => {
-  const [id, setId] = useState<string>('');
+  const nav = useNavigate();
+
+  const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const newErrors: { [key: string]: string } = {};
 
   useEffect(() => {
     validateForm();
-  }, [id, email, password, confirmPassword]);
+  }, [username, email, password, confirmPassword]);
 
   const validateForm = () => {
-    if (id && !validateId(id)) {
-      newErrors.id = '아이디는 4~16자의 알파벳, 숫자, 밑줄(_)만 가능합니다.';
+    if (username && !validateUsername(username)) {
+      newErrors.username = '아이디는 4~16자의 알파벳, 숫자, 밑줄(_)만 가능합니다.';
     }
 
     if (email && !validateEmail(email)) {
@@ -36,14 +39,13 @@ const SignUpForm: React.FC = () => {
     }
 
     setErrors(newErrors);
-    setIsFormValid(Object.keys(newErrors).length === 0);
   };
 
   const handleSignUp = async () => {
-    if (id.trim() === '') {
-      newErrors.id = '아이디를 입력해주세요.';
-    } else if (!validateId(id)) {
-      newErrors.id = '아이디는 4~16자의 알파벳, 숫자, 밑줄(_)만 가능합니다.';
+    if (username.trim() === '') {
+      newErrors.username = '아이디를 입력해주세요.';
+    } else if (!validateUsername(username)) {
+      newErrors.username = '아이디는 4~16자의 알파벳, 숫자, 밑줄(_)만 가능합니다.';
     }
 
     if (email.trim() === '') {
@@ -66,19 +68,38 @@ const SignUpForm: React.FC = () => {
 
     setErrors(newErrors);
 
-    // const userData = {
-    //   id: id,
-    //   email: email,
-    //   password1: password,
-    //   password2: confirmPassword,
-    // };
+    const userData = {
+      username: username,
+      email: email,
+      password1: password,
+      password2: confirmPassword,
+    };
 
-    // try {
-    //   registerUser(userData);
-    //   redirect('/login');
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    const data = await registerUser(userData);
+
+    // 사용중인 아이디인 경우
+    if (data.username && data.username[0] === 'User with this username already exists.') {
+      const message: string = '이미 존재하는 아이디입니다.';
+      errorNotification(message);
+      setUsername('');
+      return;
+    }
+    // 아이디와 비슷한 비밀번호인 경우
+    else if (data.non_field_errors) {
+      const message: string = '아이디와 유사하지 않은 비밀번호를 설정해주세요.';
+      errorNotification(message);
+    }
+    // 입력하지 않은 항목이 있는 경우
+    else if (data.username || data.email || data.password1 || data.password2) {
+      const message: string = '모든 항목을 올바른 형식으로 입력해주세요.';
+      errorNotification(message);
+      return;
+    } else {
+      const message: string = '회원가입 성공!';
+      successNotification(message);
+      nav('/login');
+      return;
+    }
   };
 
   return (
@@ -87,8 +108,8 @@ const SignUpForm: React.FC = () => {
         <Input
           style={{ width: pxToVw(609), height: pxToVw(78.23) }}
           placeholder='아이디 또는 이메일'
-          value={id}
-          onChange={(e) => setId(e.target.value)}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <span style={{ color: 'red', height: '10px' }}>{errors.id}</span>
       </Field>

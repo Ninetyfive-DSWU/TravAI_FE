@@ -1,7 +1,7 @@
 import { API_BASE_URL } from '@constants/Constants';
 
 interface UserData {
-  id: string;
+  username: string;
   email: string;
   password1: string;
   password2: string;
@@ -9,7 +9,7 @@ interface UserData {
 
 export const registerUser = async (userData: UserData) => {
   const jsonUserData = JSON.stringify(userData);
-
+  
   try {
     const response = await fetch(`${API_BASE_URL}/accounts/v1/registration/`, {
       method: 'POST',
@@ -32,8 +32,8 @@ export const validateEmail = (email: string): boolean => {
 };
 
 // 아이디 형식: 알파벳, 숫자, 밑줄(_)만 허용, 4~8자
-export const validateId = (id: string): boolean => {
-  return /^[a-zA-Z0-9_]{4,8}$/.test(id);
+export const validateUsername = (username: string): boolean => {
+  return /^[a-zA-Z0-9_]{4,8}$/.test(username);
 };
 
 // 비밀번호 형식: 알파벳, 숫자, 특수문자 포함, 최소 8자,
