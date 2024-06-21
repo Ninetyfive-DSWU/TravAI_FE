@@ -20,5 +20,5 @@ const PostCardContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  gap: 6rem;
+  gap: 4rem;
 `;
