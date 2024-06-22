@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import pxToVw from '@utils/PxToVw';
+import { ROUTES } from '@enums/CommonEnum';
 import { successNotification, errorNotification } from '@utils/Notification';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { Input, Button, Space } from 'antd';
@@ -97,7 +98,7 @@ const SignUpForm: React.FC = () => {
     } else {
       const message: string = '회원가입 성공!';
       successNotification(message);
-      nav('/login');
+      nav(ROUTES.LOGIN);
       return;
     }
   };

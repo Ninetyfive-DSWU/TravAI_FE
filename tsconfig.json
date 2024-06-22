@@ -8,7 +8,8 @@
       "@store/*": ["src/store/*"],
       "@api/*": ["src/api/*"],
       "@utils/*": ["src/utils/*"],
-      "@constants/*": ["src/constants/*"]
+      "@constants/*": ["src/constants/*"],
+      "@enums/*": ["src/enums/*"]
     },
     "target": "ES2020",
     "useDefineForClassFields": true,
