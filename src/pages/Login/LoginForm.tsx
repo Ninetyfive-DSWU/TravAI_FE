@@ -32,7 +32,9 @@ const LoginForm: React.FC = () => {
     if (data.key) {
       const message: string = '로그인 성공!';
       successNotification(message);
-      window.location.replace('/');
+      setTimeout(() => {
+        window.location.replace('/');
+      }, 1000);
     }
   };
 

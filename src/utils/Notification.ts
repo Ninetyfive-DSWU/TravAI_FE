@@ -12,7 +12,7 @@ export const successNotification = (message: string) => {
   notification.success({
     message: 'Success',
     description: message,
-    duration: 2,
+    duration: 1,
   });
 };
 
