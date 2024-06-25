@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
+    "@react-google-maps/api": "^2.19.3",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.14.5",
     "@types/react-redux": "^7.1.33",

@@ -6,6 +6,7 @@ import { ENVMODE, ROUTES } from '@enums/CommonEnum';
 import Home from '@pages/Home';
 import Login from '@pages/Login';
 import MyPage from '@pages/MyPage';
+import Map from '@pages/Map';
 import { SYSTEM_MODE } from '@constants/Constants';
 import GlobalStyle from '@assets/styles/GlobalStyle';
 import Base from '@components/layouts/Base';
@@ -27,6 +28,7 @@ const App: React.FC = () => {
           <Route path={ROUTES.LOGIN} element={<Login type='login' />} />
           <Route path={ROUTES.SIGNUP} element={<Login type='signup' />} />
           <Route path={ROUTES.MYPAGE} element={<MyPage />} />
+          <Route path={ROUTES.MAP} element={<Map />} />
         </Routes>
       </Base>
     </BrowserRouter>

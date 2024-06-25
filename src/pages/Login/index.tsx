@@ -30,4 +30,5 @@ const LoginContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: ${pxToVw(85)};
+  padding-top: 66px;
 `;
