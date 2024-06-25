@@ -20,4 +20,5 @@ const MyPageContainer = styled.div`
   flex-direction: column;
   margin: 0 ${pxToVw(111)};
   gap: ${pxToVw(115)};
+  padding-top: 66px;
 `;
