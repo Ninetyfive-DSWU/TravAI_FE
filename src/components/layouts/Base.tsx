@@ -19,6 +19,10 @@ export default Base;
 
 const StyledMain = styled.main`
   margin-top: 0;
-  width: 100%;
+  width: 100vw;
   height: calc(100vh - 6.15vw);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;

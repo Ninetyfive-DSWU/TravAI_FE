@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import SubmitBtn from "../Home/SubmitBtn";
 import SelectionBox from "../Home/SelectionBox";
+import pxToVw from "@utils/PxToVw";
 
 const FilterBox: React.FC = () => {
   return (
@@ -27,4 +28,6 @@ const FilterContainer = styled.div`
   align-items: center;
   justify-content: center;
   gap: 2.96vw;
+  padding-left: ${pxToVw(51)};
+  padding-right: ${pxToVw(24)};
 `;

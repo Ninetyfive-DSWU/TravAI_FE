@@ -2,6 +2,7 @@ import { Cascader } from "antd";
 import { CascaderProps, GetProp } from "antd";
 import styled from "styled-components";
 import Icon, { IconName } from "./IconComponent";
+import pxToVw from "@utils/PxToVw";
 
 interface SelectionFieldProps extends Omit<CascaderProps, "onChange"> {
   title: string;
@@ -23,14 +24,25 @@ const filter = (inputValue: string, path: DefaultOptionType[]) =>
   );
 
 const StyledCascader = styled(Cascader)`
+  &&& {
+    width: ${pxToVw(220)} !important;
+  }
   .ant-select-selector {
     border: none !important;
     box-shadow: none !important;
     padding: 0px !important;
   }
   .ant-select-selection-placeholder {
-    font-size: 16px;
+    font-size: ${pxToVw(21)};
     font-weight: normal; // 글씨 두께
+  }
+  .ant-select-selection-search {
+    width: 100%;
+    inset-inline-start: 0px !important;
+    inset-inline-end: 0px !important;
+  }
+  .ant-select-selection-item {
+    font-size: ${pxToVw(21)};
   }
 `;
 
@@ -71,4 +83,5 @@ const TitleContainer = styled.div`
 `;
 const Title = styled.div`
   font-size: 1.56vw;
+  font-weight: 700;
 `;

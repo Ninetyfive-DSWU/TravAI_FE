@@ -3,6 +3,7 @@ import { DatePicker } from "antd";
 import styled from "styled-components";
 import Icon from "../../components/ui/IconComponent";
 import { RangePickerProps } from "antd/es/date-picker";
+import pxToVw from "@utils/PxToVw";
 
 const { RangePicker } = DatePicker;
 
@@ -11,13 +12,9 @@ const SelectionField: React.FC = () => {
     <SelectionFieldContainer>
       <TitleContainer>
         <Icon name="date" />
-        <Title>여행 일정</Title>
+        <Title>일정</Title>
       </TitleContainer>
-      <StyledRangePicker
-        suffixIcon={null}
-        separator={<Separator>→</Separator>}
-        placeholder={["Start date", "End date"]}
-      />
+      <StyledRangePicker suffixIcon={null} />
     </SelectionFieldContainer>
   );
 };
@@ -35,38 +32,33 @@ const TitleContainer = styled.div`
 
 const Title = styled.div`
   font-size: 1.56vw;
-`;
-
-const Separator = styled.span`
-  padding: 0 8px;
+  font-weight: 700;
 `;
 
 const StyledRangePicker = styled(RangePicker)`
   &.ant-picker {
     border: none;
     box-shadow: none;
+    width: ${pxToVw(330)};
+    padding: 0rem;
+    height: 32px;
     display: flex;
-    flex-direction: column;
-    padding: 0px;
-  }
-
-  .ant-picker-input:nth-of-type(1) {
-    width: auto;
-    align-self: flex-start;
-  }
-
-  .ant-picker-range-separator {
-  }
-  input::placeholder {
-    color: #000;
-  }
-
-  .ant-picker-input:nth-of-type(2) {
-    width: auto;
-    align-self: flex-end !important;
+    flex-direction: row;
+    align-items: center;
   }
 
   .ant-picker-active-bar {
+    display: none;
+  }
+  .ant-picker-input > input:placeholder-shown {
+    font-size: ${pxToVw(21)} !important;
+  }
+
+  .ant-picker-input > input {
+    font-size: ${pxToVw(21)} !important;
+  }
+
+  .ant-picker-clear {
     display: none;
   }
 ` as React.ComponentType<RangePickerProps>;

@@ -7,8 +7,10 @@ import thumnail from "../../assets/images/png/background.png";
 const Home: React.FC = () => {
   return (
     <MainSection>
-      <Img src={thumnail} />
-      <FilterBox />
+      <MainContainer>
+        <Img src={thumnail} />
+        <FilterBox />
+      </MainContainer>
     </MainSection>
   );
 };
@@ -16,12 +18,15 @@ const Home: React.FC = () => {
 export default Home;
 
 const MainSection = styled.div`
+  height: calc(34.74vw + (9.42vw / 2));
+`;
+
+const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
-  padding-top: 66px;
 `;
 
 const Img = styled.img`
