@@ -114,4 +114,5 @@ const SelectionContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 1.59vw;
+  align-items: center;
 `;
