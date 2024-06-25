@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ENVMODE, ROUTES } from "./enums/CommonEnum";
+// import { Provider } from 'react-redux';
+// import { store } from '@store/store';
+import { ENVMODE, ROUTES } from "@enums/CommonEnum";
 import Home from "@pages/Home";
 import Login from "@pages/Login";
 import MyPage from "@pages/MyPage";
-import { SYSTEM_MODE } from "./constants/Constants";
+import Map from "@pages/Map";
+import { SYSTEM_MODE } from "@constants/Constants";
 import GlobalStyle from "@assets/styles/GlobalStyle";
 import Base from "@components/layouts/Base";
 
@@ -16,6 +19,7 @@ const App: React.FC = () => {
   }, []);
 
   return (
+    // <Provider store={store}>
     <BrowserRouter>
       <Base>
         <GlobalStyle />
@@ -24,9 +28,11 @@ const App: React.FC = () => {
           <Route path={ROUTES.LOGIN} element={<Login type="login" />} />
           <Route path={ROUTES.SIGNUP} element={<Login type="signup" />} />
           <Route path={ROUTES.MYPAGE} element={<MyPage />} />
+          <Route path={ROUTES.MAP} element={<Map />} />
         </Routes>
       </Base>
     </BrowserRouter>
+    // </Provider>
   );
 };
 

@@ -19,7 +19,6 @@ export default Base;
 
 const StyledMain = styled.main`
   margin-top: 0;
-  padding-top: 66px;
   width: 100%;
-  height: auto;
+  height: calc(100vh - 6.15vw);
 `;

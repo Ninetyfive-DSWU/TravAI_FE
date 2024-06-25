@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import pxToVw from '@utils/PxToVw';
 import Typography from '@components/ui/Typography/Typography';
 import ThumnailImage from '@components/ui/Thumnail/ThumnailImage';
 
@@ -34,9 +35,9 @@ const InfoContainer = styled.div`
 `;
 
 const Button = styled.button`
-  width: 80px;
-  height: 24px;
-  font-size: 16px;
+  width: ${pxToVw(80)};
+  height: ${pxToVw(24)};
+  font-size: ${pxToVw(16)};
   background: none;
   border: 0;
   border-bottom: 1px solid #000;

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import pxToVw from '@utils/PxToVw';
 import Typography from '@components/ui/Typography/Typography';
 import MyList from '@pages/MyPage/MyList';
 
@@ -17,6 +18,7 @@ export default MyPage;
 const MyPageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 230px 111px;
-  gap: 115px;
+  margin: 0 ${pxToVw(111)};
+  gap: ${pxToVw(115)};
+  padding-top: 66px;
 `;

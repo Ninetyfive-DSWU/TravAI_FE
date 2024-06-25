@@ -1,14 +1,21 @@
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { ROUTES } from "../../../enums/CommonEnum";
+import { ROUTES } from "@enums/CommonEnum";
 import HeaderDropdown from "./HeaderDropdown";
 
 const LoginSection: React.FC = () => {
   const nav = useNavigate();
-  const isLogin = true;
+  const [userId, setUserId] = useState<string>("");
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("userId");
+    setUserId(storedUsername);
+  }, []);
+
   return (
     <MenuContainer>
-      {isLogin ? (
+      {userId ? (
         <HeaderDropdown />
       ) : (
         <>

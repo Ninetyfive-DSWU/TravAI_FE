@@ -20,8 +20,8 @@ const MainSection = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
   position: relative;
+  padding-top: 66px;
 `;
 
 const Img = styled.img`

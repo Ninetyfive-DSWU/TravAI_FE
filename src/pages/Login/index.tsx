@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import pxToVw from '@utils/PxToVw';
+
 import Typography from '@components/ui/Typography/Typography';
 import LoginForm from '@pages/Login/LoginForm';
 import SignUpForm from '@pages/Login/SignUpForm';
@@ -27,6 +29,6 @@ const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 85px;
-  margin-top: 230px;
+  gap: ${pxToVw(85)};
+  padding-top: 66px;
 `;
