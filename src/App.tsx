@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-// import { Provider } from 'react-redux';
-// import { store } from '@store/store';
 import { ENVMODE, ROUTES } from '@enums/CommonEnum';
 import Home from '@pages/Home';
 import Login from '@pages/Login';
@@ -19,7 +17,6 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    // <Provider store={store}>
     <BrowserRouter>
       <Base>
         <GlobalStyle />
@@ -32,7 +29,6 @@ const App: React.FC = () => {
         </Routes>
       </Base>
     </BrowserRouter>
-    // </Provider>
   );
 };
 
