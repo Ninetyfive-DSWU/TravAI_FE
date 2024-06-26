@@ -1,9 +1,25 @@
 import styled from "styled-components";
 import SearchIcon from "../../assets/images/svg/SearchBtn.svg";
+import useFilterStore from "../../store/useFilterstore";
 
 const SubmitBtn: React.FC = () => {
+  const {
+    destination,
+    companion,
+    style,
+    startDate,
+    endDate,
+    nights,
+    clearOptions,
+  } = useFilterStore();
+
+  const handleSubmit = () => {
+    console.log(destination, companion, style, startDate, endDate, nights);
+    clearOptions();
+  };
+
   return (
-    <SubmitBtnContainer>
+    <SubmitBtnContainer onClick={handleSubmit}>
       <SubmitBtnImg src={SearchIcon} />
     </SubmitBtnContainer>
   );

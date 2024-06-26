@@ -1,13 +1,18 @@
 import styled from "styled-components";
-import { useState } from "react";
 import LineDivider from "@components/ui/LineDivider";
 import SelectionField from "@components/ui/SelectionField";
 import DateField from "../Home/DateField";
+import useFilterStore from "../../store/useFilterstore";
 
 const SelectionBox: React.FC = () => {
-  const [destination, setDestination] = useState<string[]>([]);
-  const [companion, setCompanion] = useState<string[]>([]);
-  const [style, setStyle] = useState<string[]>([]);
+  const {
+    destination,
+    companion,
+    style,
+    setDestination,
+    setStyle,
+    setCompanion,
+  } = useFilterStore();
 
   interface Option {
     value: string;
