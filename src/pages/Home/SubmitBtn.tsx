@@ -16,12 +16,12 @@ const SubmitBtnContainer = styled.div`
   width: 6.77vw;
   height: 6.77vw;
   padding: 1.56px;
-  border-radius: 13px;
+  border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 `;
 const SubmitBtnImg = styled.img`
-  width: 3vw;
+  width: 2vw;
 `;

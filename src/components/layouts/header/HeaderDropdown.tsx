@@ -1,35 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { Dropdown } from 'antd';
-import styled from 'styled-components';
+import React, { useEffect, useState } from "react";
+import { Dropdown } from "antd";
+import styled from "styled-components";
 // import { ROUTES } from "../../../enums/CommonEnum";
 // import { useNavigate } from "react-router-dom";
-import { successNotification } from '@utils/Notification';
+import { successNotification } from "@utils/Notification";
 
 const HeaderDropdown: React.FC = () => {
   // const nav = useNavigate();
-  const [username, setUsername] = useState<string>('');
+  const [username, setUsername] = useState<string>("");
 
   const handleLogout = () => {
-    const message = '로그아웃되었습니다.';
+    const message = "로그아웃되었습니다.";
     successNotification(message);
     localStorage.clear();
     setTimeout(() => {
-      window.location.replace('/');
+      window.location.replace("/");
     }, 1000);
   };
 
   useEffect(() => {
-    const storedUsername: string | null = localStorage.getItem('userId');
+    const storedUsername: string | null = localStorage.getItem("userId");
     setUsername(storedUsername);
   }, []);
 
   const handleMenuClick = ({ key }: { key: string }) => {
     switch (key) {
-      case 'myPage':
-        console.log('마이페이지로 이동');
+      case "myPage":
+        console.log("마이페이지로 이동");
         // nav(ROUTES.MYPAGE, { state: userId });
         break;
-      case 'logout':
+      case "logout":
         handleLogout();
         break;
       default:
@@ -43,18 +43,18 @@ const HeaderDropdown: React.FC = () => {
         menu={{
           items: [
             {
-              label: '마이 페이지',
-              key: 'myPage',
+              label: "마이 페이지",
+              key: "myPage",
             },
             {
-              label: '로그아웃',
-              key: 'logout',
+              label: "로그아웃",
+              key: "logout",
               danger: true,
             },
           ],
           onClick: handleMenuClick,
         }}
-        trigger={['hover']}
+        trigger={["hover"]}
       >
         <a onClick={(e) => e.preventDefault()}>
           <UserName>{username}님</UserName>

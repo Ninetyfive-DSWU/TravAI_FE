@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { ROUTES } from '@enums/CommonEnum';
-import HeaderDropdown from './HeaderDropdown';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { ROUTES } from "@enums/CommonEnum";
+import HeaderDropdown from "./HeaderDropdown";
 
 const LoginSection: React.FC = () => {
   const nav = useNavigate();
-  const [userId, setUserId] = useState<string>('');
+  const [userId, setUserId] = useState<string>("");
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem('userId');
+    const storedUsername = localStorage.getItem("userId");
     setUserId(storedUsername);
   }, []);
 
