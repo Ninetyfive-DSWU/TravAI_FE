@@ -1,13 +1,18 @@
 import styled from "styled-components";
-import { useState } from "react";
 import LineDivider from "@components/ui/LineDivider";
 import SelectionField from "@components/ui/SelectionField";
 import DateField from "../Home/DateField";
+import useFilterStore from "../../store/useFilterstore";
 
 const SelectionBox: React.FC = () => {
-  const [destination, setDestination] = useState<string[]>([]);
-  const [companion, setCompanion] = useState<string[]>([]);
-  const [style, setStyle] = useState<string[]>([]);
+  const {
+    destination,
+    companion,
+    style,
+    setDestination,
+    setStyle,
+    setCompanion,
+  } = useFilterStore();
 
   interface Option {
     value: string;
@@ -17,60 +22,76 @@ const SelectionBox: React.FC = () => {
 
   const destinationOptions: Option[] = [
     {
-      value: "seoul",
-      label: "서울",
-      children: [
-        {
-          value: "gangnam",
-          label: "강남",
-        },
-        {
-          value: "hongdae",
-          label: "홍대",
-        },
-      ],
+      value: "뉴욕",
+      label: "뉴욕",
     },
     {
-      value: "busan",
-      label: "부산",
-      children: [
-        {
-          value: "haeundae",
-          label: "해운대",
-        },
-        {
-          value: "nampo",
-          label: "남포",
-        },
-      ],
+      value: "도쿄",
+      label: "도쿄",
+    },
+    {
+      value: "런던",
+      label: "런던",
+    },
+    {
+      value: "로마",
+      label: "로마",
+    },
+    {
+      value: "베를린",
+      label: "베를린",
+    },
+    {
+      value: "시드니",
+      label: "시드니",
+    },
+    {
+      value: "싱가포르",
+      label: "싱가포르",
+    },
+    {
+      value: "타이페이",
+      label: "타이페이",
+    },
+    {
+      value: "파리",
+      label: "파리",
     },
   ];
   const companionOptions: Option[] = [
     {
-      value: "family",
+      value: "가족",
       label: "가족",
     },
     {
-      value: "friend",
+      value: "연인",
+      label: "연인",
+    },
+    {
+      value: "친구",
       label: "친구",
     },
     {
-      value: "alone",
+      value: "혼자",
       label: "혼자",
     },
   ];
   const styleOptions: Option[] = [
     {
-      value: "relax",
+      value: "관광",
+      label: "관광",
+    },
+    {
+      value: "쇼핑",
+      label: "쇼핑",
+    },
+    {
+      value: "액티비티",
+      label: "액티비티",
+    },
+    {
+      value: "힐링",
       label: "힐링",
-    },
-    {
-      value: "adventure",
-      label: "모험",
-    },
-    {
-      value: "culture",
-      label: "문화",
     },
   ];
 

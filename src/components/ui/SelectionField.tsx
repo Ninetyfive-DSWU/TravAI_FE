@@ -4,14 +4,12 @@ import styled from "styled-components";
 import Icon, { IconName } from "./IconComponent";
 import pxToVw from "@utils/PxToVw";
 
-interface SelectionFieldProps extends Omit<CascaderProps, "onChange"> {
+interface SelectionFieldProps
+  extends Omit<CascaderProps, "onChange" | "value"> {
   title: string;
-  value?: string[];
+  value?: string;
   iconType: IconName;
-  onChange: (
-    value: string[],
-    selectedOptions: CascaderProps["options"]
-  ) => void;
+  onChange: (value: string[]) => void;
 }
 
 type DefaultOptionType = GetProp<CascaderProps, "options">[number];
@@ -61,10 +59,8 @@ const SelectionField: React.FC<SelectionFieldProps> = ({
       </TitleContainer>
       <StyledCascader
         {...cascaderProps}
-        value={value}
-        onChange={(value, selectedOptions) =>
-          onChange(value as string[], selectedOptions)
-        }
+        value={value ? [value] : []}
+        onChange={(value) => onChange(value as string[])}
         placement="topLeft"
         showSearch={{ filter }}
       />
