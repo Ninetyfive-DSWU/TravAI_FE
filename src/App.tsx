@@ -7,6 +7,7 @@ import Home from "@pages/Home";
 import Login from "@pages/Login";
 import MyPage from "@pages/MyPage";
 import Map from "@pages/Map";
+import Loading from "@pages/Loading";
 import { SYSTEM_MODE } from "@constants/Constants";
 import GlobalStyle from "@assets/styles/GlobalStyle";
 import Base from "@components/layouts/Base";
@@ -29,6 +30,7 @@ const App: React.FC = () => {
           <Route path={ROUTES.SIGNUP} element={<Login type="signup" />} />
           <Route path={ROUTES.MYPAGE} element={<MyPage />} />
           <Route path={ROUTES.MAP} element={<Map />} />
+          <Route path={ROUTES.LOADING} element={<Loading />} />
         </Routes>
       </Base>
     </BrowserRouter>
