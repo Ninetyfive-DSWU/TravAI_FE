@@ -1,9 +1,9 @@
-import pxToVw from '@utils/PxToVw';
-import React from 'react';
-import styled from 'styled-components';
-import PlanNavBar from '@pages/Map/PlanNavBar';
-import PlanTitle from '@pages/Map/PlanTitle';
-import Plans from '@pages/Map/Plans';
+import pxToVw from "@utils/PxToVw";
+import React from "react";
+import styled from "styled-components";
+import PlanNavBar from "@pages/Plan/PlanNavBar";
+import PlanTitle from "@pages/Plan/PlanTitle";
+import Plans from "@pages/Plan/Plans";
 
 const PlanPage: React.FC = () => {
   return (

@@ -13,7 +13,7 @@ type PageNames = {
   LOGIN: string;
   SIGNUP: string;
   MYPAGE: string;
-  MAP: string;
+  PLAN: string;
   LOADING: string;
 };
 
@@ -22,7 +22,7 @@ type Routes = {
   LOGIN: string;
   SIGNUP: string;
   MYPAGE: string;
-  MAP: string;
+  PLAN: string;
   LOADING: string;
 };
 
@@ -31,7 +31,7 @@ export const PAGENAMES: Readonly<PageNames> = Object.freeze({
   LOGIN: "로그인",
   SIGNUP: "회원가입",
   MYPAGE: "마이페이지",
-  MAP: "지도",
+  PLAN: "일정",
   LOADING: "로딩",
 });
 
@@ -40,6 +40,6 @@ export const ROUTES: Readonly<Routes> = Object.freeze({
   LOGIN: "/login",
   SIGNUP: "/signup",
   MYPAGE: "/mypage",
-  MAP: "/map",
+  PLAN: "/plan",
   LOADING: "/loading",
 });
