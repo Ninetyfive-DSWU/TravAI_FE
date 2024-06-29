@@ -1,13 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 import { Button } from "antd";
 import pxToVw from "@utils/PxToVw";
 import usePlanStore from "@store/usePlanStore";
 import useModeStore from "@store/useModeStore";
+import AddPlan from "@components/ui/Modal/AddPlan";
 
 const PlanNavBar: React.FC = () => {
   const { nights, currentDay, setCurrentDay } = usePlanStore();
   const { editMode, setEditMode } = useModeStore();
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [confirmLoading, setConfirmLoading] = useState<boolean>(false);
 
   const clickDayButton = (day: number) => () => {
     const selectedDay = day + 1;
@@ -16,6 +19,23 @@ const PlanNavBar: React.FC = () => {
 
   const clickEdit = () => {
     setEditMode(!editMode);
+  };
+
+  const handleOk = () => {
+    setConfirmLoading(true);
+    setTimeout(() => {
+      setModalOpen(false);
+      // 버튼 누른 후 지도에 반영하도록 로딩 동작하는 방법
+      setConfirmLoading(false);
+    }, 1000);
+  };
+
+  const handleCancel = () => {
+    setModalOpen(false);
+  };
+
+  const clickAdd = () => {
+    setModalOpen(true);
   };
 
   return (
@@ -38,9 +58,10 @@ const PlanNavBar: React.FC = () => {
       </DayContainer>
       <ButtonContainer>
         <Button onClick={clickEdit}>편집</Button>
-        <Button>일정 추가</Button>
+        <Button onClick={clickAdd}>일정 추가</Button>
         <Button>계획표 저장</Button>
       </ButtonContainer>
+      <AddPlan confirmLoading={confirmLoading} modalOpen={modalOpen} handleOk={handleOk} handleCancel={handleCancel} />
     </SideContainer>
   );
 };

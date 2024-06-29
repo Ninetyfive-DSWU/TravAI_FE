@@ -1,42 +1,34 @@
-import React, { useState } from 'react';
-import { Button, Modal, Input } from 'antd';
+import React, { useState } from "react";
+import { Input, Modal } from "antd";
+import usePlanStore from "@store/usePlanStore";
 
-const AddPlan: React.FC = () => {
-  const [open, setOpen] = useState<boolean>(false);
-  const [confirmLoading, setConfirmLoading] = useState<boolean>(false);
-  const [modalText, setModalText] = useState<string>('');
+interface AddPlanProps {
+  confirmLoading: boolean;
+  modalOpen: boolean;
+  handleOk: () => void;
+  handleCancel: () => void;
+}
 
-  const showModal = () => {
-    setOpen(true);
-  };
-
-  const handleOk = () => {
-    console.log(modalText);
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setOpen(false);
-      // 버튼 누른 후 지도에 반영하도록 로딩 동작하는 방법
-      setConfirmLoading(false);
-    }, 1000);
-  };
-
-  const handleCancel = () => {
-    setOpen(false);
-  };
+const AddPlan: React.FC<AddPlanProps> = ({ confirmLoading, modalOpen, handleOk, handleCancel }) => {
+  const [addPlace, setAddPlace] = useState<string>("");
+  const { plans } = usePlanStore();
+  const bound = plans[0].city;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setModalText(e.target.value);
+    setAddPlace(e.target.value);
   };
-
   return (
-    <>
-      <Button type='primary' onClick={showModal}>
-        일정 추가
-      </Button>
-      <Modal title='일정 추가' open={open} onOk={handleOk} confirmLoading={confirmLoading} onCancel={handleCancel}>
-        <Input placeholder='추가할 일정' value={modalText} onChange={handleInputChange} />
-      </Modal>
-    </>
+    <Modal
+      title="일정 추가"
+      confirmLoading={confirmLoading}
+      open={modalOpen}
+      onOk={handleOk}
+      onCancel={handleCancel}
+      centered
+    >
+      <Input placeholder="추가할 일정" value={addPlace} onChange={handleInputChange} />
+    </Modal>
   );
 };
+
 export default AddPlan;
