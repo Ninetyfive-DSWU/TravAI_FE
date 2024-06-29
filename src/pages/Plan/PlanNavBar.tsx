@@ -9,7 +9,6 @@ const PlanNavBar: React.FC = () => {
   const { nights, currentDay, setCurrentDay } = usePlanStore();
   const { editMode, setEditMode } = useModeStore();
 
-  console.log(nights);
   const clickDayButton = (day: number) => () => {
     const selectedDay = day + 1;
     setCurrentDay(selectedDay);

@@ -1,8 +1,10 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
+import { Dayjs } from "dayjs";
 import usePlanStore from "@store/usePlanStore";
 import useModeStore from "@store/useModeStore";
+import { TimePicker } from "antd";
 import pxToVw from "@utils/PxToVw";
 import Icon from "@components/ui/IconComponent";
 
@@ -12,7 +14,6 @@ const Plans: React.FC = () => {
 
   const dailyPlans = useMemo(() => plans.filter((plan) => currentDay === parseInt(plan.day)), [plans, currentDay]);
 
-  // 드래그가 끝났을 때 호출되는 함수
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
 
@@ -28,36 +29,49 @@ const Plans: React.FC = () => {
     setPlans(updatedPlans);
   };
 
+  const handleTimeChange = (time: Dayjs | null, timeString: string | string[], planId: number): void => {
+    const updatedPlans = plans.map((plan) => (plan.id === planId ? { ...plan, time: timeString.toString() } : plan));
+    setPlans(updatedPlans);
+  };
+
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <Droppable droppableId="plans" isDropDisabled={!editMode}>
         {(provided) => (
           <PlansContainer {...provided.droppableProps} ref={provided.innerRef}>
-            {dailyPlans.map((plan, index) => {
-              if (currentDay === parseInt(plan.day)) {
-                return (
-                  <Draggable key={index} draggableId={`plan-${index}`} index={index} isDragDisabled={!editMode}>
-                    {(provided) => (
-                      <PlanContainer>
-                        <Index>{index + 1}</Index>
-                        <PlanItem ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                          <Time>시간 설정</Time>
-                          <VerticalLine />
-                          <Place>{plan.place}</Place>
-                          {editMode && (
-                            <Icon
-                              name="delete"
-                              style={{ position: "absolute", top: "0", right: "0" }}
-                              onClick={() => handleDeletePlan(plan.id)}
-                            />
-                          )}
-                        </PlanItem>
-                      </PlanContainer>
-                    )}
-                  </Draggable>
-                );
-              }
-            })}
+            {dailyPlans.map((plan, index) => (
+              <Draggable key={index} draggableId={`plan-${index}`} index={index} isDragDisabled={!editMode}>
+                {(provided) => (
+                  <PlanContainer>
+                    <Index>{index + 1}</Index>
+                    <StyledPlanItem ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                      {editMode ? (
+                        <StyledTimePicker
+                          format="hh:mm A"
+                          showNow={false}
+                          minuteStep={5}
+                          variant="borderless"
+                          placeholder={plan.time === " " ? "시간 설정" : plan.time}
+                          onChange={(time, timeString) => handleTimeChange(time, timeString, plan.id)}
+                          hasTime={plan.time === " "}
+                        />
+                      ) : (
+                        <Time hasTime={plan.time === " "}>{plan.time === " " ? "시간 설정" : plan.time}</Time>
+                      )}
+                      <VerticalLine />
+                      <Place>{plan.place}</Place>
+                      {editMode && (
+                        <Icon
+                          name="delete"
+                          style={{ position: "absolute", top: "0", right: "0" }}
+                          onClick={() => handleDeletePlan(plan.id)}
+                        />
+                      )}
+                    </StyledPlanItem>
+                  </PlanContainer>
+                )}
+              </Draggable>
+            ))}
             {provided.placeholder}
           </PlansContainer>
         )}
@@ -101,11 +115,22 @@ const PlanItem = styled.div`
   position: relative;
 `;
 
-const Time = styled.div`
-  width: 30%;
+const StyledPlanItem = styled(PlanItem)`
+  .ant-picker-small .ant-picker-input input {
+    font-size: 10px;
+  }
+`;
+
+interface TimeProps {
+  hasTime: boolean;
+}
+
+const Time = styled.div<TimeProps>`
+  font-size: 10px;
+  width: 45%;
   display: flex;
   justify-content: center;
-  color: lightgray;
+  color: ${(props) => (props.hasTime ? "lightgray" : "black")};
 `;
 
 const VerticalLine = styled.div`
@@ -115,7 +140,28 @@ const VerticalLine = styled.div`
 `;
 
 const Place = styled.div`
-  width: 70%;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+`;
+
+interface StyledTimePickerProps {
+  hasTime: boolean;
+}
+
+const StyledTimePicker = styled(TimePicker)<StyledTimePickerProps>`
+  .ant-picker-input {
+    width: 60%;
+  }
+
+  .ant-picker-input input {
+    font-size: 10px;
+    &::placeholder {
+      color: ${(props) => (props.hasTime ? "lightgray" : "black")};
+    }
+  }
+
+  width: 45%;
   display: flex;
   justify-content: center;
 `;
