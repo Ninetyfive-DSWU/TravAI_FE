@@ -1,4 +1,6 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "@enums/CommonEnum";
 import styled from "styled-components";
 import { Button } from "antd";
 import pxToVw from "@utils/PxToVw";
@@ -7,6 +9,7 @@ import useModeStore from "@store/useModeStore";
 import AddPlan from "@components/ui/Modal/AddPlan";
 
 const PlanNavBar: React.FC = () => {
+  const nav = useNavigate();
   const { nights, currentDay, setCurrentDay } = usePlanStore();
   const { editMode, setEditMode } = useModeStore();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -38,6 +41,10 @@ const PlanNavBar: React.FC = () => {
     setModalOpen(true);
   };
 
+  const clickSave = () => {
+    nav(ROUTES.SAVE);
+  };
+
   return (
     <SideContainer>
       <DayContainer>
@@ -59,7 +66,7 @@ const PlanNavBar: React.FC = () => {
       <ButtonContainer>
         <Button onClick={clickEdit}>편집</Button>
         <Button onClick={clickAdd}>일정 추가</Button>
-        <Button>계획표 저장</Button>
+        <Button onClick={clickSave}>계획표 저장</Button>
       </ButtonContainer>
       <AddPlan confirmLoading={confirmLoading} modalOpen={modalOpen} handleOk={handleOk} handleCancel={handleCancel} />
     </SideContainer>

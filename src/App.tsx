@@ -6,6 +6,7 @@ import Login from "@pages/Login";
 import MyPage from "@pages/MyPage";
 import Plan from "@pages/Plan";
 import Loading from "@pages/Loading";
+import Save from "@pages/Save";
 import { SYSTEM_MODE } from "@constants/Constants";
 import GlobalStyle from "@assets/styles/GlobalStyle";
 import Base from "@components/layouts/Base";
@@ -18,7 +19,6 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    // <Provider store={store}>
     <BrowserRouter>
       <Base>
         <GlobalStyle />
@@ -29,10 +29,10 @@ const App: React.FC = () => {
           <Route path={ROUTES.MYPAGE} element={<MyPage />} />
           <Route path={ROUTES.PLAN} element={<Plan />} />
           <Route path={ROUTES.LOADING} element={<Loading />} />
+          <Route path={ROUTES.SAVE} element={<Save />} />
         </Routes>
       </Base>
     </BrowserRouter>
-    // </Provider>
   );
 };
 

@@ -25,4 +25,5 @@ const StyledMain = styled.main`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow-y: auto;
 `;

@@ -86,6 +86,8 @@ const PlansContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  overflow-y: auto;
+  padding: 16px 0;
 `;
 
 const PlanContainer = styled.div`

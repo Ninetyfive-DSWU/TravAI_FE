@@ -15,6 +15,7 @@ type PageNames = {
   MYPAGE: string;
   PLAN: string;
   LOADING: string;
+  SAVE: string;
 };
 
 type Routes = {
@@ -24,6 +25,7 @@ type Routes = {
   MYPAGE: string;
   PLAN: string;
   LOADING: string;
+  SAVE: string;
 };
 
 export const PAGENAMES: Readonly<PageNames> = Object.freeze({
@@ -33,6 +35,7 @@ export const PAGENAMES: Readonly<PageNames> = Object.freeze({
   MYPAGE: "마이페이지",
   PLAN: "일정",
   LOADING: "로딩",
+  SAVE: "저장"
 });
 
 export const ROUTES: Readonly<Routes> = Object.freeze({
@@ -42,4 +45,5 @@ export const ROUTES: Readonly<Routes> = Object.freeze({
   MYPAGE: "/mypage",
   PLAN: "/plan",
   LOADING: "/loading",
+  SAVE: "/save"
 });
