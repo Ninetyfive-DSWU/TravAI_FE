@@ -49,7 +49,7 @@ const Container = styled.div`
 
 const PreparationList = styled.div`
   width: 100%;
-  height: 20vh;
+  height: 15vh;
   display: flex;
   justify-content: space-between;
 `;
