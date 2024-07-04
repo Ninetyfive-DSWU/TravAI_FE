@@ -34,6 +34,8 @@ const Plan: React.FC = () => {
     };
 
     fetchPlanList();
+    // 마커 관련 로컬 스토리지 초기화
+    localStorage.removeItem("storedMarkers");
   }, [sessionId]);
 
   const { isLoaded, loadError } = useJsApiLoader({

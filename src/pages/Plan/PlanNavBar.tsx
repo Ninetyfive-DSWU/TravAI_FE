@@ -48,10 +48,11 @@ const PlanNavBar: React.FC = () => {
   return (
     <SideContainer>
       <DayContainer>
-        {[...Array(nights).keys()].map((day) => {
+        {[...Array(nights+1).keys()].map((day) => {
           const isCurrentDay = currentDay === day + 1;
           return (
             <Button
+              key={day}
               onClick={clickDayButton(day)}
               style={{
                 backgroundColor: isCurrentDay ? "black" : undefined,
