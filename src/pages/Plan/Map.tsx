@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { GoogleMap, MarkerF } from "@react-google-maps/api";
+import { GoogleMap, MarkerF, PolylineF } from "@react-google-maps/api";
 import pxToVw from "@utils/PxToVw";
 import { loadStoredMarkers, saveStoredMarkers } from "@utils/LocalStorage";
 import { fetchLocation } from "@api/planListApi";
@@ -45,7 +45,9 @@ const Map: React.FC = () => {
       for (const plan of plans) {
         if (parseInt(plan.day) === currentDay) {
           // 저장된 마커 데이터에서 해당 주소를 찾기
-          const storedMarker = updatedStoredMarkers.find((marker) => marker.address === plan.address);
+          const storedMarker = updatedStoredMarkers.find(
+            (marker) => marker.address === plan.address
+          );
           if (storedMarker) {
             // 저장된 마커가 있다면 추가
             markers.push({ lat: storedMarker.lat, lng: storedMarker.lng });
@@ -53,13 +55,27 @@ const Map: React.FC = () => {
             // 저장된 마커가 없다면 API 호출하여 좌표 가져오기
             const location = await fetchLocation(plan.address);
 
-            if (location && location[0] && location[0].geometry && location[0].geometry.location) {
+            if (
+              location &&
+              location[0] &&
+              location[0].geometry &&
+              location[0].geometry.location
+            ) {
               const { lat, lng } = location[0].geometry.location;
               const place_id = location[0].place_id;
-              const newStoredMarker = { lat: lat(), lng: lng(), address: plan.address, place_id };
+              const newStoredMarker = {
+                lat: lat(),
+                lng: lng(),
+                address: plan.address,
+                place_id,
+              };
 
               markers.push({ lat: lat(), lng: lng() });
-              if (!updatedStoredMarkers.some((marker) => marker.address === plan.address)) {
+              if (
+                !updatedStoredMarkers.some(
+                  (marker) => marker.address === plan.address
+                )
+              ) {
                 updatedStoredMarkers.push(newStoredMarker);
                 saveStoredMarkers(updatedStoredMarkers);
               }
@@ -112,6 +128,14 @@ const Map: React.FC = () => {
       {markerList.map((marker, index) => (
         <MarkerF key={index} position={marker} label={(index + 1).toString()} />
       ))}
+      <PolylineF
+        path={markerList}
+        options={{
+          strokeColor: "#FF0000",
+          strokeOpacity: 0.8,
+          strokeWeight: 2,
+        }}
+      />
     </GoogleMap>
   );
 };
