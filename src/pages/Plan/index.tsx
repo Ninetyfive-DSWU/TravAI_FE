@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useJsApiLoader } from "@react-google-maps/api";
 import { API_KEY } from "../../config";
 import PlanPage from "@pages/Plan/PlanPage";
 import Map from "@pages/Plan/Map";
-import { planList } from "@api/planListApi";
+import { GetPlan } from "@api/planListApi";
 import usePlanStore from "@store/usePlanStore";
 
 const MapContainer = styled.div`
@@ -15,19 +15,15 @@ const MapContainer = styled.div`
 `;
 
 const Plan: React.FC = () => {
-  const location = useLocation();
-  const { setPlans } = usePlanStore();
-  const [sessionId, setsessionId] = useState<string | undefined>();
-
+  const { setPlans, setNights } = usePlanStore();
+  const { sessionId } = useParams<{ sessionId: string }>();
   useEffect(() => {
-    setsessionId(location.state.session_id.session_id);
-
+    if (!sessionId) return;
     const fetchPlanList = async () => {
-      if (!sessionId) return;
-
       try {
-        const response = await planList(sessionId);
-        setPlans(response);
+        const { plans, nights } = await GetPlan(sessionId);
+        setPlans(plans);
+        setNights(nights);
       } catch (error) {
         console.error("Error fetching plan list:", error);
       }
@@ -36,7 +32,7 @@ const Plan: React.FC = () => {
     fetchPlanList();
     // 마커 관련 로컬 스토리지 초기화
     localStorage.removeItem("storedMarkers");
-  }, [sessionId]);
+  }, [sessionId, setPlans, setNights]);
 
   const { isLoaded, loadError } = useJsApiLoader({
     id: "google-map-script",
