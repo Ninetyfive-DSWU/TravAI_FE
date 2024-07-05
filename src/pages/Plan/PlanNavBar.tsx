@@ -24,6 +24,10 @@ const PlanNavBar: React.FC = () => {
     setEditMode(!editMode);
   };
 
+  const clickUpdate = () => {
+    setEditMode(!editMode);
+  };
+
   const handleOk = () => {
     setConfirmLoading(true);
     setTimeout(() => {
@@ -48,7 +52,7 @@ const PlanNavBar: React.FC = () => {
   return (
     <SideContainer>
       <DayContainer>
-        {[...Array(nights+1).keys()].map((day) => {
+        {[...Array(nights + 1).keys()].map((day) => {
           const isCurrentDay = currentDay === day + 1;
           return (
             <Button
@@ -65,11 +69,33 @@ const PlanNavBar: React.FC = () => {
         })}
       </DayContainer>
       <ButtonContainer>
-        <Button onClick={clickEdit}>편집</Button>
-        <Button onClick={clickAdd}>일정 추가</Button>
-        <Button onClick={clickSave}>계획표 저장</Button>
+        {editMode === false ? (
+          <>
+            <Button onClick={clickEdit}>편집</Button>
+            <Button onClick={clickSave}>계획표 저장</Button>
+          </>
+        ) : (
+          <>
+            <Button
+              onClick={clickUpdate}
+              style={{
+                backgroundColor: editMode ? "black" : undefined,
+                color: editMode ? "white" : undefined,
+              }}
+            >
+              저장
+            </Button>
+            <Button onClick={clickAdd}>일정 추가</Button>
+            <Button onClick={clickSave}>계획표 저장</Button>
+          </>
+        )}
       </ButtonContainer>
-      <AddPlan confirmLoading={confirmLoading} modalOpen={modalOpen} handleOk={handleOk} handleCancel={handleCancel} />
+      <AddPlan
+        confirmLoading={confirmLoading}
+        modalOpen={modalOpen}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+      />
     </SideContainer>
   );
 };
