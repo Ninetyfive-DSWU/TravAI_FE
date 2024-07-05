@@ -35,7 +35,7 @@ export const PAGENAMES: Readonly<PageNames> = Object.freeze({
   MYPAGE: "마이페이지",
   PLAN: "일정",
   LOADING: "로딩",
-  SAVE: "저장"
+  SAVE: "저장",
 });
 
 export const ROUTES: Readonly<Routes> = Object.freeze({
@@ -43,7 +43,7 @@ export const ROUTES: Readonly<Routes> = Object.freeze({
   LOGIN: "/login",
   SIGNUP: "/signup",
   MYPAGE: "/mypage",
-  PLAN: "/plan",
+  PLAN: "/plan/:sessionId",
   LOADING: "/loading",
-  SAVE: "/save"
+  SAVE: "/save",
 });
