@@ -14,7 +14,6 @@ const PlanNavBar: React.FC = () => {
   const { nights, currentDay, setCurrentDay, plans, setPlans } = usePlanStore();
   const { editMode, setEditMode } = useModeStore();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [confirmLoading, setConfirmLoading] = useState<boolean>(false);
   const { sessionId } = useParams<{ sessionId: string }>();
 
   const clickDayButton = (day: number) => () => {
@@ -42,11 +41,9 @@ const PlanNavBar: React.FC = () => {
   };
 
   const handleOk = () => {
-    setConfirmLoading(true);
     setTimeout(() => {
       setModalOpen(false);
       // 버튼 누른 후 지도에 반영하도록 로딩 동작하는 방법
-      setConfirmLoading(false);
     }, 1000);
   };
 
@@ -103,7 +100,7 @@ const PlanNavBar: React.FC = () => {
           </>
         )}
       </ButtonContainer>
-      <AddPlan confirmLoading={confirmLoading} modalOpen={modalOpen} handleOk={handleOk} handleCancel={handleCancel} />
+      {modalOpen && <AddPlan modalOpen={modalOpen} handleOk={handleOk} handleCancel={handleCancel} />}
     </SideContainer>
   );
 };
