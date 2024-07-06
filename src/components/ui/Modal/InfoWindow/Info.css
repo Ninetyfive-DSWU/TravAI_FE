@@ -1,0 +1,15 @@
+.gm-style-iw-t .gm-style-iw-c {
+  height: 400px !important;
+  width: 350px !important;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0px;
+}
+
+.gm-style img {
+  align-self: center;
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+}

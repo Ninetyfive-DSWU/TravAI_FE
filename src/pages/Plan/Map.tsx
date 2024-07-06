@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import pxToVw from "@utils/PxToVw";
-import { loadStoredMarkers, saveStoredMarkers } from "@utils/LocalStorage";
+import { saveStoredMarkers } from "@utils/LocalStorage";
 import { fetchLocation } from "@api/planListApi";
 import usePlanStore from "@store/usePlanStore";
+import Info from "@components/ui/Modal/InfoWindow/Info";
+import { findPlaceDetail } from "@api/infoApi";
 
 const center = {
   lat: 37.5649867,
@@ -16,15 +18,22 @@ const containerStyle = {
 };
 
 type Marker = {
-  lat: number;
-  lng: number;
+  position: {
+    lat: number;
+    lng: number;
+  };
+  placeName: string;
+  placeId: string;
+  photoUrl: string;
 };
 
 type StoredMarker = {
   lat: number;
   lng: number;
+  placeName: string;
   address: string;
-  place_id: string;
+  placeId: string;
+  photoUrl: string;
 };
 
 const Map: React.FC = () => {
@@ -35,6 +44,7 @@ const Map: React.FC = () => {
     return stored ? JSON.parse(stored) : [];
   });
   const mapRef = useRef<google.maps.Map | null>(null);
+  const [selectedMarker, setSelectedMarker] = useState<Marker | null>();
 
   // 1. 장소의 좌표 데이터 저장하기
   const fetchMarker = async () => {
@@ -44,21 +54,43 @@ const Map: React.FC = () => {
 
       for (const plan of plans) {
         if (parseInt(plan.day) === currentDay) {
+          const placeName = plan.place;
           // 저장된 마커 데이터에서 해당 주소를 찾기
           const storedMarker = updatedStoredMarkers.find((marker) => marker.address === plan.address);
+
           if (storedMarker) {
             // 저장된 마커가 있다면 추가
-            markers.push({ lat: storedMarker.lat, lng: storedMarker.lng });
+            markers.push({
+              position: { lat: storedMarker.lat, lng: storedMarker.lng },
+              placeName: storedMarker.placeName,
+              placeId: storedMarker.placeId,
+              photoUrl: storedMarker.photoUrl,
+            });
           } else {
             // 저장된 마커가 없다면 API 호출하여 좌표 가져오기
             const location = await fetchLocation(plan.address);
 
             if (location && location[0] && location[0].geometry && location[0].geometry.location) {
               const { lat, lng } = location[0].geometry.location;
-              const place_id = location[0].place_id;
-              const newStoredMarker = { lat: lat(), lng: lng(), address: plan.address, place_id };
+              const placeId = location[0].place_id;
+              const placeDetail = await findPlaceDetail(placeId);
 
-              markers.push({ lat: lat(), lng: lng() });
+              const newStoredMarker = {
+                lat: lat(),
+                lng: lng(),
+                address: plan.address,
+                placeName: plan.place,
+                placeId,
+                photoUrl: placeDetail.photoUrl,
+              };
+
+              markers.push({
+                position: { lat: lat(), lng: lng() },
+                placeName,
+                placeId,
+                photoUrl: placeDetail.photoUrl,
+              });
+
               if (!updatedStoredMarkers.some((marker) => marker.address === plan.address)) {
                 updatedStoredMarkers.push(newStoredMarker);
                 saveStoredMarkers(updatedStoredMarkers);
@@ -84,19 +116,23 @@ const Map: React.FC = () => {
 
       // 각 마커에 대해 경계 확장
       markers.forEach((marker) => {
-        bounds.extend(new google.maps.LatLng(marker.lat, marker.lng));
+        bounds.extend(new google.maps.LatLng(marker.position));
       });
       mapRef.current.fitBounds(bounds); // 경계를 지도에 맞추기
     }
   };
 
-  useEffect(() => {
-    const loadedMarkers = loadStoredMarkers();
-    setStoredMarkers(loadedMarkers);
-  }, []);
+  const handleClickMarker = (marker: Marker) => {
+    setSelectedMarker(marker);
+  };
+
+  const resetSelectedMarker = () => {
+    setSelectedMarker(null);
+  };
 
   useEffect(() => {
     fetchMarker();
+    resetSelectedMarker();
   }, [plans, currentDay]);
 
   return (
@@ -108,9 +144,26 @@ const Map: React.FC = () => {
         mapRef.current = map;
       }}
       options={{ styles: customMap }}
+      onClick={resetSelectedMarker}
     >
       {markerList.map((marker, index) => (
-        <MarkerF key={index} position={marker} label={(index + 1).toString()} />
+        <>
+          <MarkerF
+            key={index}
+            position={marker.position}
+            label={(index + 1).toString()}
+            onClick={() => handleClickMarker(marker)}
+          />
+          {selectedMarker && (
+            <Info
+              position={selectedMarker.position}
+              placeName={selectedMarker.placeName}
+              placeId={selectedMarker.placeId}
+              photoUrl={selectedMarker.photoUrl}
+              onCloseClick={() => setSelectedMarker(null)}
+            />
+          )}
+        </>
       ))}
     </GoogleMap>
   );
