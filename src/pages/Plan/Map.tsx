@@ -4,7 +4,7 @@ import pxToVw from "@utils/PxToVw";
 import { saveStoredMarkers } from "@utils/LocalStorage";
 import { fetchLocation } from "@api/planListApi";
 import usePlanStore from "@store/usePlanStore";
-import Info from "@components/ui/Modal/InfoWindow/Info";
+import Info from "@components/ui/Modal/InfoWindow";
 import { findPlaceDetail } from "@api/infoApi";
 
 const center = {

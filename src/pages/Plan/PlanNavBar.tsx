@@ -103,12 +103,7 @@ const PlanNavBar: React.FC = () => {
           </>
         )}
       </ButtonContainer>
-      <AddPlan
-        confirmLoading={confirmLoading}
-        modalOpen={modalOpen}
-        handleOk={handleOk}
-        handleCancel={handleCancel}
-      />
+      <AddPlan confirmLoading={confirmLoading} modalOpen={modalOpen} handleOk={handleOk} handleCancel={handleCancel} />
     </SideContainer>
   );
 };
