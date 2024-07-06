@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { GoogleMap, MarkerF } from "@react-google-maps/api";
+import { GoogleMap, MarkerF, PolylineF } from "@react-google-maps/api";
 import pxToVw from "@utils/PxToVw";
 import { saveStoredMarkers } from "@utils/LocalStorage";
 import { fetchLocation } from "@api/planListApi";
@@ -165,6 +165,14 @@ const Map: React.FC = () => {
           )}
         </>
       ))}
+      <PolylineF
+        path={markerList.map((marker) => ({ lat: marker.position.lat, lng: marker.position.lng }))}
+        options={{
+          strokeColor: "#FF0000",
+          strokeOpacity: 0.8,
+          strokeWeight: 2,
+        }}
+      />
     </GoogleMap>
   );
 };

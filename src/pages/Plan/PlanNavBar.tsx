@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ROUTES } from "@enums/CommonEnum";
 import styled from "styled-components";
 import { Button } from "antd";
@@ -7,13 +7,15 @@ import pxToVw from "@utils/PxToVw";
 import usePlanStore from "@store/usePlanStore";
 import useModeStore from "@store/useModeStore";
 import AddPlan from "@components/ui/Modal/AddPlan";
+import { UpdatePlan } from "@api/planListApi";
 
 const PlanNavBar: React.FC = () => {
   const nav = useNavigate();
-  const { nights, currentDay, setCurrentDay } = usePlanStore();
+  const { nights, currentDay, setCurrentDay, plans, setPlans } = usePlanStore();
   const { editMode, setEditMode } = useModeStore();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false);
+  const { sessionId } = useParams<{ sessionId: string }>();
 
   const clickDayButton = (day: number) => () => {
     const selectedDay = day + 1;
@@ -22,6 +24,21 @@ const PlanNavBar: React.FC = () => {
 
   const clickEdit = () => {
     setEditMode(!editMode);
+  };
+
+  const clickUpdate = async () => {
+    setEditMode(!editMode);
+    if (sessionId) {
+      try {
+        const updatedPlans = await UpdatePlan(sessionId, plans);
+        console.log("Plans updated successfully:", updatedPlans);
+        setPlans(plans);
+      } catch (error) {
+        console.error("Failed to update plans:", error);
+      }
+    } else {
+      console.error("Session을 찾을 수 없음");
+    }
   };
 
   const handleOk = () => {
@@ -48,7 +65,7 @@ const PlanNavBar: React.FC = () => {
   return (
     <SideContainer>
       <DayContainer>
-        {[...Array(nights+1).keys()].map((day) => {
+        {[...Array(nights + 1).keys()].map((day) => {
           const isCurrentDay = currentDay === day + 1;
           return (
             <Button
@@ -65,11 +82,33 @@ const PlanNavBar: React.FC = () => {
         })}
       </DayContainer>
       <ButtonContainer>
-        <Button onClick={clickEdit}>편집</Button>
-        <Button onClick={clickAdd}>일정 추가</Button>
-        <Button onClick={clickSave}>계획표 저장</Button>
+        {editMode === false ? (
+          <>
+            <Button onClick={clickEdit}>편집</Button>
+            <Button onClick={clickSave}>계획표 저장</Button>
+          </>
+        ) : (
+          <>
+            <Button
+              onClick={clickUpdate}
+              style={{
+                backgroundColor: editMode ? "black" : undefined,
+                color: editMode ? "white" : undefined,
+              }}
+            >
+              저장
+            </Button>
+            <Button onClick={clickAdd}>일정 추가</Button>
+            <Button onClick={clickSave}>계획표 저장</Button>
+          </>
+        )}
       </ButtonContainer>
-      <AddPlan confirmLoading={confirmLoading} modalOpen={modalOpen} handleOk={handleOk} handleCancel={handleCancel} />
+      <AddPlan
+        confirmLoading={confirmLoading}
+        modalOpen={modalOpen}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+      />
     </SideContainer>
   );
 };
