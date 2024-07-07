@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { Modal, AutoComplete } from "antd";
 import usePlanStore from "@store/usePlanStore";
 import { API_KEY } from "../../../../config";
+import styled from "styled-components";
+import Typography from "@components/ui/Typography/Typography";
 
 interface AddPlanProps {
   modalOpen: boolean;
@@ -83,7 +85,7 @@ const AddPlan: React.FC<AddPlanProps> = ({ modalOpen, handleOk, handleCancel }) 
     setInputValue(value);
   };
 
-  // 주소 넣기
+  // 주소 넣기 (O)
   // 타이머 (O)
   // plans
   return (
@@ -93,7 +95,13 @@ const AddPlan: React.FC<AddPlanProps> = ({ modalOpen, handleOk, handleCancel }) 
         value={inputValue}
         onChange={handleInputChange}
         options={predictions.map((p) => ({
-          value: p.structured_formatting.main_text,
+          value: p.description,
+          label: (
+            <DropdownConatiner>
+              <Typography content={p.structured_formatting.main_text} size={20} />
+              <Typography content={p.structured_formatting.secondary_text} size={16} />
+            </DropdownConatiner>
+          ),
         }))}
         style={{ width: "100%", display: "flex" }}
       />
@@ -102,3 +110,9 @@ const AddPlan: React.FC<AddPlanProps> = ({ modalOpen, handleOk, handleCancel }) 
 };
 
 export default AddPlan;
+
+const DropdownConatiner = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
