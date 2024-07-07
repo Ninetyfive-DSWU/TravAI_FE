@@ -40,13 +40,6 @@ const PlanNavBar: React.FC = () => {
     }
   };
 
-  const handleOk = () => {
-    setTimeout(() => {
-      setModalOpen(false);
-      // 버튼 누른 후 지도에 반영하도록 로딩 동작하는 방법
-    }, 1000);
-  };
-
   const handleCancel = () => {
     setModalOpen(false);
   };
@@ -100,7 +93,7 @@ const PlanNavBar: React.FC = () => {
           </>
         )}
       </ButtonContainer>
-      {modalOpen && <AddPlan modalOpen={modalOpen} handleOk={handleOk} handleCancel={handleCancel} />}
+      {modalOpen && <AddPlan modalOpen={modalOpen} setModalOpen={setModalOpen} handleCancel={handleCancel} />}
     </SideContainer>
   );
 };

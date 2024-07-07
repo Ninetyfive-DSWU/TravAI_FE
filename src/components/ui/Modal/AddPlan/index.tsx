@@ -4,30 +4,34 @@ import usePlanStore from "@store/usePlanStore";
 import { API_KEY } from "../../../../config";
 import styled from "styled-components";
 import Typography from "@components/ui/Typography/Typography";
+import { loadScript } from "@utils/LoadScript";
 
 interface AddPlanProps {
   modalOpen: boolean;
-  handleOk: () => void;
+  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleCancel: () => void;
 }
 
-const loadScript = (url: string, callback: () => void) => {
-  if (window.google && window.google.maps) {
-    callback();
-    return;
-  }
-  const script = document.createElement("script");
-  script.src = url;
-  script.async = true;
-  script.onload = callback;
-  document.head.appendChild(script);
-};
+interface PlanProps {
+  id: number;
+  time: string;
+  place: string;
+  address: string;
+  city: string;
+  day: string;
+  endday: string;
+  startday: string;
+  move: null | string;
+  order: number;
+  session_id: string;
+}
 
-const AddPlan: React.FC<AddPlanProps> = ({ modalOpen, handleOk, handleCancel }) => {
-  const { plans } = usePlanStore();
+const AddPlan: React.FC<AddPlanProps> = ({ modalOpen, setModalOpen, handleCancel }) => {
+  const { plans, setPlans, currentDay } = usePlanStore();
   const city = plans[0].city;
-  const [inputValue, setInputValue] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string | undefined>("");
   const [predictions, setPredictions] = useState<google.maps.places.AutocompletePrediction[]>([]);
+  const [newPlan, setNewPlan] = useState<PlanProps>();
   const autocompleteService = useRef<google.maps.places.AutocompleteService | null>(null);
   const geocoder = useRef<google.maps.Geocoder | null>(null);
   const timerId = useRef<NodeJS.Timeout | null>(null);
@@ -49,12 +53,14 @@ const AddPlan: React.FC<AddPlanProps> = ({ modalOpen, handleOk, handleCancel }) 
     timerId.current = setTimeout(() => {
       if (inputValue && autocompleteService.current && geocoder.current) {
         geocoder.current.geocode({ address: city }, (results, status) => {
-          if (status === google.maps.GeocoderStatus.OK && results[0]) {
+          if (status === google.maps.GeocoderStatus.OK && results && results[0]) {
             const location = results[0].geometry.location;
+            const bounds = results[0].geometry.viewport; // 지역 경계 설정
             const request = {
               input: inputValue,
               location: location,
-              radius: 5000,
+              radius: 50000,
+              bounds: bounds,
               types: ["geocode", "establishment"],
             };
             if (autocompleteService.current) {
@@ -85,9 +91,39 @@ const AddPlan: React.FC<AddPlanProps> = ({ modalOpen, handleOk, handleCancel }) 
     setInputValue(value);
   };
 
-  // 주소 넣기 (O)
-  // 타이머 (O)
-  // plans
+  const handleSelect = (value: string) => {
+    const selected = predictions.find((p) => p.description === value);
+    setInputValue(selected?.structured_formatting.main_text);
+    setNewPlan({
+      id: new Date().getTime(),
+      time: "",
+      place: selected?.structured_formatting.main_text || "",
+      address: selected?.structured_formatting.secondary_text || "",
+      city,
+      day: currentDay.toString(),
+      endday: plans[0].endday,
+      startday: plans[0].startday,
+      move: "",
+      order: 1,
+      session_id: plans[0].session_id,
+    });
+  };
+
+  const handleOk = () => {
+    if (newPlan) {
+      // 현재 plans 배열에서 가장 큰 order 값에 1을 더해 새로운 order 값으로 설정
+      const maxOrder = plans.reduce((max, plan) => Math.max(max, plan.order), 0);
+      const updateOrder = {
+        ...newPlan,
+        order: maxOrder + 1,
+      };
+      // setPlans((prevPlans) => [...prevPlans, newPlan]);
+      const addedPlans = [...plans, updateOrder];
+      setPlans(addedPlans);
+    }
+    setModalOpen(false);
+  };
+
   return (
     <Modal title="일정 추가" open={modalOpen} onOk={handleOk} onCancel={handleCancel} centered>
       <AutoComplete
@@ -98,11 +134,12 @@ const AddPlan: React.FC<AddPlanProps> = ({ modalOpen, handleOk, handleCancel }) 
           value: p.description,
           label: (
             <DropdownConatiner>
-              <Typography content={p.structured_formatting.main_text} size={20} />
+              <Typography content={p.structured_formatting.main_text} size={20} fontWeight={600} />
               <Typography content={p.structured_formatting.secondary_text} size={16} />
             </DropdownConatiner>
           ),
         }))}
+        onSelect={handleSelect}
         style={{ width: "100%", display: "flex" }}
       />
     </Modal>

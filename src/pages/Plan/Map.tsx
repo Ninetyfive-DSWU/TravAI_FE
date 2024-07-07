@@ -5,7 +5,7 @@ import { saveStoredMarkers } from "@utils/LocalStorage";
 import { fetchLocation } from "@api/planListApi";
 import usePlanStore from "@store/usePlanStore";
 import Info from "@components/ui/Modal/InfoWindow";
-import { findPlaceDetail } from "@api/infoApi";
+import { findPlaceDetail, findPhotoUrl } from "@api/infoApi";
 
 const center = {
   lat: 37.5649867,
@@ -74,6 +74,7 @@ const Map: React.FC = () => {
               const { lat, lng } = location[0].geometry.location;
               const placeId = location[0].place_id;
               const placeDetail = await findPlaceDetail(placeId);
+              const photoUrl = await findPhotoUrl(plan.place);
 
               const newStoredMarker = {
                 lat: lat(),
@@ -81,14 +82,14 @@ const Map: React.FC = () => {
                 address: plan.address,
                 placeName: plan.place,
                 placeId,
-                photoUrl: placeDetail.photoUrl,
+                photoUrl,
               };
 
               markers.push({
                 position: { lat: lat(), lng: lng() },
                 placeName,
                 placeId,
-                photoUrl: placeDetail.photoUrl,
+                photoUrl,
               });
 
               if (!updatedStoredMarkers.some((marker) => marker.address === plan.address)) {
@@ -133,6 +134,7 @@ const Map: React.FC = () => {
   useEffect(() => {
     fetchMarker();
     resetSelectedMarker();
+    console.log("a");
   }, [plans, currentDay]);
 
   return (
