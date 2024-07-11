@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import FilterBox from "@pages/Home/FilterBox";
-import thumnail from "../../assets/images/png/background.png";
-// import AddPlan from '@components/ui/Modal/AddPlan';
+import Carousel from "@components/ui/Carousel/Carousel";
 
 const Home: React.FC = () => {
   return (
     <MainSection>
       <MainContainer>
-        <Img src={thumnail} />
+        {/* <Img src={thumnail} /> */}
+        <Carousel />
         <FilterBox />
       </MainContainer>
     </MainSection>
@@ -27,11 +27,4 @@ const MainContainer = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-`;
-
-const Img = styled.img`
-  width: 88.54vw;
-  height: 34.74vw;
-  border-radius: 3.125rem;
-  object-fit: cover;
 `;
