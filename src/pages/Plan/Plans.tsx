@@ -1,28 +1,21 @@
 import React, { useMemo } from "react";
 import styled from "styled-components";
-import {
-  DragDropContext,
-  Draggable,
-  Droppable,
-  DropResult,
-} from "react-beautiful-dnd";
+import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import { Dayjs } from "dayjs";
 import usePlanStore from "@store/usePlanStore";
 import useModeStore from "@store/useModeStore";
 import { TimePicker } from "antd";
 import pxToVw from "@utils/PxToVw";
 import Icon from "@components/ui/IconComponent";
+import Typography from "@components/ui/Typography/Typography";
 
 const Plans: React.FC = () => {
   const { plans, setPlans, currentDay } = usePlanStore();
   const { editMode } = useModeStore();
 
   const dailyPlans = useMemo(
-    () =>
-      plans
-        .filter((plan) => currentDay === parseInt(plan.day))
-        .sort((a, b) => a.order - b.order),
-    [plans, currentDay]
+    () => plans.filter((plan) => currentDay === parseInt(plan.day)).sort((a, b) => a.order - b.order),
+    [plans, currentDay],
   );
 
   const handleDragEnd = (result: DropResult) => {
@@ -40,14 +33,8 @@ const Plans: React.FC = () => {
     setPlans(updatedPlans);
   };
 
-  const handleTimeChange = (
-    time: Dayjs | null,
-    timeString: string | string[],
-    planId: number
-  ): void => {
-    const updatedPlans = plans.map((plan) =>
-      plan.id === planId ? { ...plan, time: timeString.toString() } : plan
-    );
+  const handleTimeChange = (time: Dayjs | null, timeString: string | string[], planId: number): void => {
+    const updatedPlans = plans.map((plan) => (plan.id === planId ? { ...plan, time: timeString.toString() } : plan));
     setPlans(updatedPlans);
   };
 
@@ -57,41 +44,30 @@ const Plans: React.FC = () => {
         {(provided) => (
           <PlansContainer {...provided.droppableProps} ref={provided.innerRef}>
             {dailyPlans.map((plan, index) => (
-              <Draggable
-                key={index}
-                draggableId={`plan-${index}`}
-                index={index}
-                isDragDisabled={!editMode}
-              >
+              <Draggable key={index} draggableId={`plan-${index}`} index={index} isDragDisabled={!editMode}>
                 {(provided) => (
                   <PlanContainer>
                     <Index>{index + 1}</Index>
-                    <StyledPlanItem
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      {editMode ? (
-                        <StyledTimePicker
-                          format="hh:mm A"
-                          showNow={false}
-                          minuteStep={5}
-                          variant="borderless"
-                          placeholder={
-                            plan.time === " " ? "시간 설정" : plan.time
-                          }
-                          onChange={(time, timeString) =>
-                            handleTimeChange(time, timeString, plan.id)
-                          }
-                          hasTime={plan.time === " "}
-                        />
-                      ) : (
-                        <Time hasTime={plan.time === " "}>
-                          {plan.time === " " ? "시간 설정" : plan.time}
-                        </Time>
-                      )}
-                      <VerticalLine />
-                      <Place>{plan.place}</Place>
+                    <StyledPlanItem ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                      <TimeContainer>
+                        {editMode ? (
+                          <StyledTimePicker
+                            format="hh:mm A"
+                            showNow={false}
+                            minuteStep={5}
+                            variant="borderless"
+                            placeholder={plan.time === " " ? "시간 설정" : plan.time}
+                            onChange={(time, timeString) => handleTimeChange(time, timeString, plan.id)}
+                            hasTime={plan.time === " "}
+                          />
+                        ) : (
+                          <Time hasTime={plan.time === " "}>{plan.time === " " ? "시간 설정" : plan.time}</Time>
+                        )}
+                        <VerticalLine />
+                      </TimeContainer>
+                      <Place>
+                        <Typography content={plan.place} size={16} style={{ textAlign: "center" }} />
+                      </Place>
                       {editMode && (
                         <Icon
                           name="delete"
@@ -155,6 +131,11 @@ const StyledPlanItem = styled(PlanItem)`
   }
 `;
 
+const TimeContainer = styled.div`
+  width: 40%;
+  display: flex;
+`;
+
 interface TimeProps {
   hasTime: boolean;
 }
@@ -162,7 +143,6 @@ interface TimeProps {
 const Time = styled.div<TimeProps>`
   font-size: 10px;
   width: 45%;
-  display: flex;
   justify-content: center;
   color: ${(props) => (props.hasTime ? "lightgray" : "black")};
 `;
@@ -185,7 +165,7 @@ interface StyledTimePickerProps {
 
 const StyledTimePicker = styled(TimePicker)<StyledTimePickerProps>`
   .ant-picker-input {
-    width: 60%;
+    width: 80%;
   }
 
   .ant-picker-input input {
@@ -195,7 +175,6 @@ const StyledTimePicker = styled(TimePicker)<StyledTimePickerProps>`
     }
   }
 
-  width: 45%;
   display: flex;
   justify-content: center;
 `;
