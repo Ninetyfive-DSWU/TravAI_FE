@@ -10,35 +10,28 @@ import Image08 from "@assets/images/jpg/08.jpg";
 import Image09 from "@assets/images/jpg/09.jpg";
 
 const images = [Image01, Image02, Image03, Image04, Image05, Image06, Image07, Image08, Image09];
+const extendedImages = [...images, ...images];
 
 const Carousel: React.FC = () => {
   return (
-    <View>
-      <Slide>
-        {images.concat(images).map((image) => {
-          return <Img src={image} />;
-        })}
-      </Slide>
-    </View>
+    <Slide>
+      {extendedImages.concat(images).map((image) => {
+        return <Img src={image} />;
+      })}
+    </Slide>
   );
 };
 
 export default Carousel;
 
-const View = styled.div`
-  // overflow: hidden;
-`;
-
 const Slide = styled.ul`
   display: flex;
   position: relative;
-  padding-left: -100px;
-  border-radius: 3.125rem;
-  animation: autoPlay 120s linear infinite;
+  animation: autoPlay 100s linear infinite;
 
   @keyframes autoPlay {
     from {
-      transition: translateX(0);
+      transform: translateX(0);
     }
     to {
       transform: translateX(calc(-88.54vw * 9));
