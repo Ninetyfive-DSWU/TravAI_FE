@@ -1,21 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { DatePicker } from "antd";
 import styled from "styled-components";
 import Icon from "../../components/ui/IconComponent";
 import { RangePickerProps } from "antd/es/date-picker";
 import pxToVw from "@utils/PxToVw";
 import useFilterStore from "../../store/useFilterstore";
+import usePlanStore from "@store/usePlanStore";
 
 const { RangePicker } = DatePicker;
 
 const SelectionField: React.FC = () => {
-  const { setDates } = useFilterStore();
-  const handleDateChange: RangePickerProps["onChange"] = (
-    dates,
-    dateStrings
-  ) => {
+  const { setDates, nights } = useFilterStore();
+  const { setNights } = usePlanStore();
+
+  const handleDateChange: RangePickerProps["onChange"] = (dates, dateStrings) => {
     setDates(dateStrings[0], dateStrings[1]);
   };
+
+  useEffect(() => {
+    setNights(nights);
+  }, [nights, setNights]);
 
   return (
     <SelectionFieldContainer>

@@ -9,7 +9,7 @@ const LoginSection: React.FC = () => {
   const [userId, setUserId] = useState<string>("");
 
   useEffect(() => {
-    const storedUsername = localStorage.getItem("userId");
+    const storedUsername = localStorage.getItem("userId") || "";
     setUserId(storedUsername);
   }, []);
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Filtering } from "../../api/filterApi";
-import { ROUTES } from "../../enums/CommonEnum";
 import useExpireModal from "../../components/ui/Modal/ExpireModal";
 
 const Loading: React.FC = () => {
@@ -30,14 +29,14 @@ const Loading: React.FC = () => {
         setLoadingMessage(
           "백엔드에서 여행 계획을 생성 중입니다. 잠시만 기다려주세요..."
         );
-        const session_id = await Filtering(inputData);
+        const data = await Filtering(inputData);
+        const session_id = data.session_id;
         setLoadingMessage(
           "여행 계획이 생성되었습니다. 결과 페이지로 이동합니다..."
         );
-
         // 잠시 대기 후 Plan 페이지로 이동
         setTimeout(() => {
-          nav(ROUTES.MAP, { state: { session_id } });
+          nav(`/plan/${session_id}`);
         }, 1500);
       } catch (error) {
         console.error("Error generating plan:", error);

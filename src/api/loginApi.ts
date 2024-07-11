@@ -1,4 +1,4 @@
-import { API_BASE_URL } from '@constants/Constants';
+import { API_BASE_URL } from "@constants/Constants";
 
 interface UserData {
   username: string;
@@ -16,9 +16,9 @@ export const registerUser = async (userData: UserData) => {
   const jsonUserData = JSON.stringify(userData);
 
   try {
-    const response = await fetch(`${API_BASE_URL}/accounts/v1/registration/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch(`${API_BASE_URL}/api/accounts/v1/registration/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: jsonUserData,
     });
 
@@ -36,9 +36,9 @@ export const login = async (loginData: LoginData) => {
   const jsonLoginData = JSON.stringify(loginData);
 
   try {
-    const response = await fetch(`${API_BASE_URL}/accounts/v1/login/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    const response = await fetch(`${API_BASE_URL}/api/accounts/v1/login/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: jsonLoginData,
     });
 
@@ -46,8 +46,8 @@ export const login = async (loginData: LoginData) => {
 
     // 로그인 성공
     if (data.key) {
-      localStorage.setItem('token', data.key);
-      localStorage.setItem('userId', data.username);
+      localStorage.setItem("token", data.key);
+      localStorage.setItem("userId", data.username);
     }
 
     return data;

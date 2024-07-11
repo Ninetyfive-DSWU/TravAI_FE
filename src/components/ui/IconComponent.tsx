@@ -4,14 +4,17 @@ import MapIcon from "../../assets/images/svg/map_pin.svg";
 import HeartIcon from "../../assets/images/svg/heart.svg";
 import CalendarIcon from "../../assets/images/svg/calendar.svg";
 import SmileIcon from "../../assets/images/svg/smile.svg";
+import DeleteIcon from "@assets/images/svg/delete.svg";
 
-export type IconName = "location" | "partner" | "style" | "date";
+export type IconName = "location" | "partner" | "style" | "date" | "delete";
 
 interface IconProps {
   name: IconName;
+  style?: React.CSSProperties;
+  onClick?: () => void;
 }
 
-const Icon: React.FC<IconProps> = ({ name }) => {
+const Icon: React.FC<IconProps> = ({ name, style, onClick }) => {
   const getIconSrc = (name: IconName) => {
     switch (name) {
       case "location":
@@ -22,6 +25,8 @@ const Icon: React.FC<IconProps> = ({ name }) => {
         return HeartIcon;
       case "date":
         return CalendarIcon;
+      case "delete":
+        return DeleteIcon;
       default:
         return null;
     }
@@ -31,7 +36,7 @@ const Icon: React.FC<IconProps> = ({ name }) => {
 
   if (!iconSrc) return null;
 
-  return <IconImg src={iconSrc} alt={`${name} icon`} />;
+  return <IconImg src={iconSrc} alt={`${name} icon`} style={style} onClick={onClick} />;
 };
 
 export default Icon;
