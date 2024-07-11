@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import pxToVw from '@utils/PxToVw';
+import React from "react";
+import styled from "styled-components";
+import pxToVw from "@utils/PxToVw";
 
 interface TypoProps {
   content: string;
@@ -26,7 +26,8 @@ interface StyledSpanProps {
 }
 
 const StyledSpan = styled.span<StyledSpanProps>`
-  font-size: ${({ $size }) => ($size ? pxToVw($size) : 'inherit')};
-  font-weight: ${({ $fontWeight }) => ($fontWeight ? `${$fontWeight}` : 'inherit')};
-  color: ${({ $color }) => ($color ? `${$color}` : 'inherit')};
+  text-align: center;
+  font-size: ${({ $size }) => ($size ? pxToVw($size) : "inherit")};
+  font-weight: ${({ $fontWeight }) => ($fontWeight ? `${$fontWeight}` : "inherit")};
+  color: ${({ $color }) => ($color ? `${$color}` : "inherit")};
 `;
