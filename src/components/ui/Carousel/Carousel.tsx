@@ -32,7 +32,7 @@ const View = styled.div`
 const Slide = styled.ul`
   display: flex;
   position: relative;
-  width: 88.54vw;
+  padding-left: -100px;
   border-radius: 3.125rem;
   animation: autoPlay 120s linear infinite;
 
