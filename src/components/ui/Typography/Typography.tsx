@@ -7,11 +7,12 @@ interface TypoProps {
   size?: number;
   fontWeight?: number;
   color?: string;
+  style?: React.CSSProperties;
 }
 
-const Typography: React.FC<TypoProps> = ({ content, size, fontWeight, color }) => {
+const Typography: React.FC<TypoProps> = ({ content, size, fontWeight, color, style }) => {
   return (
-    <StyledSpan $size={size} $fontWeight={fontWeight} $color={color}>
+    <StyledSpan $size={size} $fontWeight={fontWeight} $color={color} style={style}>
       {content}
     </StyledSpan>
   );
@@ -26,7 +27,6 @@ interface StyledSpanProps {
 }
 
 const StyledSpan = styled.span<StyledSpanProps>`
-  text-align: center;
   font-size: ${({ $size }) => ($size ? pxToVw($size) : "inherit")};
   font-weight: ${({ $fontWeight }) => ($fontWeight ? `${$fontWeight}` : "inherit")};
   color: ${({ $color }) => ($color ? `${$color}` : "inherit")};

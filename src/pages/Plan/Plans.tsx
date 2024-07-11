@@ -61,12 +61,18 @@ const Plans: React.FC = () => {
                             hasTime={plan.time === " "}
                           />
                         ) : (
-                          <Time hasTime={plan.time === " "}>{plan.time === " " ? "시간 설정" : plan.time}</Time>
+                          <Time hasTime={plan.time === " "}>
+                            {plan.time === " " ? (
+                              "시간 설정"
+                            ) : (
+                              <Typography content={plan.time} size={16} style={{ textAlign: "center" }} />
+                            )}
+                          </Time>
                         )}
                         <VerticalLine />
                       </TimeContainer>
                       <Place>
-                        <Typography content={plan.place} size={16} />
+                        <Typography content={plan.place} size={16} style={{ textAlign: "center" }} />
                       </Place>
                       {editMode && (
                         <Icon
@@ -141,8 +147,10 @@ interface TimeProps {
 }
 
 const Time = styled.div<TimeProps>`
+  display: flex;
+  align-items: center;
   font-size: 10px;
-  width: 45%;
+  width: 100%;
   justify-content: center;
   color: ${(props) => (props.hasTime ? "lightgray" : "black")};
 `;
