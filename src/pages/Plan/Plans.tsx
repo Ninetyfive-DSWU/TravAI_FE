@@ -46,9 +46,9 @@ const Plans: React.FC = () => {
             {dailyPlans.map((plan, index) => (
               <Draggable key={index} draggableId={`plan-${index}`} index={index} isDragDisabled={!editMode}>
                 {(provided) => (
-                  <PlanContainer>
+                  <PlanContainer ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                     <Index>{index + 1}</Index>
-                    <StyledPlanItem ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                    <StyledPlanItem isEdit={editMode}>
                       <TimeContainer>
                         {editMode ? (
                           <StyledTimePicker
@@ -96,6 +96,11 @@ const Plans: React.FC = () => {
 
 export default Plans;
 
+interface Props {
+  hasTime?: boolean;
+  isEdit?: boolean;
+}
+
 const PlansContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -131,9 +136,13 @@ const PlanItem = styled.div`
   position: relative;
 `;
 
-const StyledPlanItem = styled(PlanItem)`
+const StyledPlanItem = styled(PlanItem)<Props>`
   .ant-picker-small .ant-picker-input input {
     font-size: 10px;
+  }
+
+  &:hover {
+    background-color: ${(props) => (props.isEdit ? "#e5e5e5" : "white")};
   }
 `;
 
@@ -142,11 +151,7 @@ const TimeContainer = styled.div`
   display: flex;
 `;
 
-interface TimeProps {
-  hasTime: boolean;
-}
-
-const Time = styled.div<TimeProps>`
+const Time = styled.div<Props>`
   display: flex;
   align-items: center;
   font-size: 10px;

@@ -171,7 +171,7 @@ const Map: React.FC = () => {
           map.fitBounds(bounds);
         }
       }}
-      options={{ styles: customMap }}
+      options={{ disableDefaultUI: true, styles: customMap }}
       onClick={resetSelectedMarker}
     >
       {markerList.map((marker, index) => (
@@ -179,7 +179,7 @@ const Map: React.FC = () => {
           <MarkerF
             key={index}
             position={marker.position}
-            label={(index + 1).toString()}
+            label={{ text: (index + 1).toString(), color: "white" }}
             onClick={() => handleClickMarker(marker)}
           />
           {selectedMarker && (
