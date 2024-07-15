@@ -1,24 +1,24 @@
-import React from 'react';
-import styled from 'styled-components';
-import pxToVw from '@utils/PxToVw';
+import React from "react";
+import styled from "styled-components";
+import pxToVw from "@utils/PxToVw";
 
-import Typography from '@components/ui/Typography/Typography';
-import LoginForm from '@pages/Login/LoginForm';
-import SignUpForm from '@pages/Login/SignUpForm';
+import Typography from "@components/ui/Typography/Typography";
+import LoginForm from "@pages/Login/LoginForm";
+import SignUpForm from "@pages/Login/SignUpForm";
 
 interface LoginProps {
-  type: 'login' | 'signup';
+  type: "login" | "signup";
 }
 
 const Login: React.FC<LoginProps> = ({ type }) => {
   return (
     <LoginContainer>
-      {type === 'login' ? (
-        <Typography content='로그인' size={50} fontWeight={700} />
+      {type === "login" ? (
+        <Typography content="로그인" size={50} fontWeight={700} />
       ) : (
-        <Typography content='회원가입' size={50} fontWeight={700} />
+        <Typography content="회원가입" size={50} fontWeight={700} />
       )}
-      {type === 'login' ? <LoginForm /> : <SignUpForm />}
+      {type === "login" ? <LoginForm /> : <SignUpForm />}
     </LoginContainer>
   );
 };
@@ -30,5 +30,4 @@ const LoginContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: ${pxToVw(85)};
-  padding-top: 66px;
 `;
