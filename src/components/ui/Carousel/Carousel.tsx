@@ -15,8 +15,8 @@ const extendedImages = [...images, ...images];
 const Carousel: React.FC = () => {
   return (
     <Slide>
-      {extendedImages.concat(images).map((image) => {
-        return <Img src={image} />;
+      {extendedImages.concat(images).map((image, index) => {
+        return <Img src={image} key={index} />;
       })}
     </Slide>
   );

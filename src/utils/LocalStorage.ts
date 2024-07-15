@@ -9,3 +9,7 @@ type StoredMarker = {
 export const saveStoredMarkers = (markers: StoredMarker[]) => {
   localStorage.setItem("storedMarkers", JSON.stringify(markers));
 };
+
+export const clearStoredMarkers = () => {
+  localStorage.removeItem("storedMarkers");
+};

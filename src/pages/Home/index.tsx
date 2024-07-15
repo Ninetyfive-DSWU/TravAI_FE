@@ -1,9 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import { clearStoredMarkers } from "@utils/LocalStorage";
 import FilterBox from "@pages/Home/FilterBox";
 import Carousel from "@components/ui/Carousel/Carousel";
 
 const Home: React.FC = () => {
+  clearStoredMarkers();
+
   return (
     <MainSection>
       <MainContainer>

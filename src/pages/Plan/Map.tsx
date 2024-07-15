@@ -6,11 +6,9 @@ import { fetchLocation } from "@api/planListApi";
 import usePlanStore from "@store/usePlanStore";
 import Info from "@components/ui/Modal/InfoWindow";
 import { findPlaceDetail, findPhotoUrl } from "@api/infoApi";
-
-const center = {
-  lat: 37.5649867,
-  lng: 126.985575,
-};
+import { loadScript } from "@utils/LoadScript";
+import { API_KEY } from "../../config";
+import { customMap } from "@assets/styles/CustomMap";
 
 const containerStyle = {
   width: pxToVw(1290),
@@ -44,10 +42,27 @@ const Map: React.FC = () => {
     return stored ? JSON.parse(stored) : [];
   });
   const mapRef = useRef<google.maps.Map | null>(null);
-  const [selectedMarker, setSelectedMarker] = useState<Marker | null>();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [selectedMarker, setSelectedMarker] = useState<Marker | null>(null);
+
+  useEffect(() => {
+    const initGoogleServices = () => {
+      if (window.google && window.google.maps && window.google.maps.places) {
+        setLoading(false);
+      } else {
+        console.error("Google Maps 스크립트 로드 실패");
+      }
+    };
+
+    loadScript(
+      `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places&language=ko`,
+      initGoogleServices,
+    );
+  }, []);
 
   // 1. 장소의 좌표 데이터 저장하기
   const fetchMarker = async () => {
+    setLoading(true);
     try {
       const markers: Marker[] = [];
       const updatedStoredMarkers = [...storedMarkers];
@@ -73,7 +88,7 @@ const Map: React.FC = () => {
             if (location && location[0] && location[0].geometry && location[0].geometry.location) {
               const { lat, lng } = location[0].geometry.location;
               const placeId = location[0].place_id;
-              const placeDetail = await findPlaceDetail(placeId);
+              // const placeDetail = await findPlaceDetail(placeId);
               const photoUrl = await findPhotoUrl(plan.place);
 
               const newStoredMarker = {
@@ -105,8 +120,10 @@ const Map: React.FC = () => {
       setStoredMarkers(updatedStoredMarkers);
       setMarkerList(markers);
       fitBoundsToMarkers(markers);
+      setLoading(false);
     } catch (error) {
       console.log("fetchMarker error: ", error);
+      setLoading(false);
     }
   };
 
@@ -134,16 +151,25 @@ const Map: React.FC = () => {
   useEffect(() => {
     fetchMarker();
     resetSelectedMarker();
-    console.log("a");
-  }, [plans, currentDay]);
+  }, [plans, currentDay, loading]);
+
+  if (loading) {
+    return <div>경로를 생성중입니다...</div>;
+  }
 
   return (
     <GoogleMap
       mapContainerStyle={containerStyle}
-      center={center}
       zoom={12}
       onLoad={(map) => {
         mapRef.current = map;
+        if (markerList.length > 0) {
+          const bounds = new google.maps.LatLngBounds();
+          markerList.forEach((marker) => {
+            bounds.extend(new google.maps.LatLng(marker.position));
+          });
+          map.fitBounds(bounds);
+        }
       }}
       options={{ styles: customMap }}
       onClick={resetSelectedMarker}
@@ -180,105 +206,3 @@ const Map: React.FC = () => {
 };
 
 export default Map;
-
-const customMap = [
-  {
-    featureType: "landscape.man_made",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#f7f1df",
-      },
-    ],
-  },
-  {
-    featureType: "landscape.natural",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#d0e3b4",
-      },
-    ],
-  },
-  {
-    featureType: "landscape.natural.terrain",
-    elementType: "geometry",
-    stylers: [
-      {
-        visibility: "off",
-      },
-    ],
-  },
-  {
-    featureType: "poi",
-    elementType: "labels",
-    stylers: [
-      {
-        visibility: "off",
-      },
-    ],
-  },
-  {
-    featureType: "poi.business",
-    elementType: "all",
-    stylers: [
-      {
-        visibility: "off",
-      },
-    ],
-  },
-  {
-    featureType: "poi.park",
-    elementType: "geometry",
-    stylers: [
-      {
-        color: "#bde6ab",
-      },
-    ],
-  },
-  {
-    featureType: "road",
-    elementType: "geometry.stroke",
-    stylers: [
-      {
-        visibility: "off",
-      },
-    ],
-  },
-  {
-    featureType: "road",
-    elementType: "labels",
-    stylers: [
-      {
-        visibility: "off",
-      },
-    ],
-  },
-  {
-    featureType: "road.highway",
-    elementType: "geometry.fill",
-    stylers: [
-      {
-        color: "#ffe15f",
-      },
-    ],
-  },
-  {
-    featureType: "road.highway",
-    elementType: "geometry.stroke",
-    stylers: [
-      {
-        color: "#efd151",
-      },
-    ],
-  },
-  {
-    featureType: "road.arterial",
-    elementType: "geometry.fill",
-    stylers: [
-      {
-        color: "#ffffff",
-      },
-    ],
-  },
-];
